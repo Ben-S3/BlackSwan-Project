@@ -10,6 +10,14 @@ auth.set_access_token('3930122292-KS4T2uHvgVkbiZ5utFrzYpfrfwsMJ85lJVHi6oT',
 
 api = tweepy.API(auth)
 
-public_tweets = api.home_timeline()
-for tweet in public_tweets:
-    print(tweet.text)
+page = 1
+while True:
+    statuses = api.user_timeline("@TheOnion", page = page)
+    if statuses:
+        for status in statuses:
+            # process status here
+            print(status.text)
+    else:
+        # All done
+        break
+    page += 1  # next page

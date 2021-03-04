@@ -5,9 +5,9 @@ import tweepy
 from tweepy import OAuthHandler
 
 
-auth = OAuthHandler('I4l32YtrKK5XbRqEMNQbyNn1j', 'Y7pYpONITmmDyMqeoQpz2Uq5HPB7ilttI3opCtZDL1XJNYlQQx')
-auth.set_access_token('3930122292-KS4T2uHvgVkbiZ5utFrzYpfrfwsMJ85lJVHi6oT',
-                          '1R2pBpGZ6kXwdq8ClmK1HCvW8Mxy3Xt9i8q8q4EjifAGl')
+auth = OAuthHandler('P3MouxIBM8paKK5WU9nq8rkDQ', '8WFkiLm136rtGfiHc8LQNpiUaQvXHrXDybUFJ55SeijbAvBzjV')
+auth.set_access_token('3930122292-nE61z1YrkLLtfWCiDDLQJI6AylW62EJHBpZ8jWt',
+                      'ehRrZd1gvNCgHgrm3jr7wNP0hbn6tJxE8VusJxLH9Iybz')
 
 api = tweepy.API(auth)
 

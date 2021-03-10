@@ -29,7 +29,7 @@ end_date = datetime.datetime(int(end_year), int(end_month), int(end_day), 0, 0, 
 keyword = keyword.split()
 
 for n in keyword:
-    for status1 in tweepy.Cursor(api.search, since=start_date, until=end_date, q=n, geo=geo_tag).items(30):
+    for status1 in tweepy.Cursor(api.search, since=start_date, until=end_date, q=n, geocode=geo_tag).items(30):
         print(status1.text)
         print(status1.geo)
 

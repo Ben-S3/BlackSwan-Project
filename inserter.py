@@ -15,26 +15,29 @@ import mysql.connector
 #how to get the primary key of the previous transaction:
 #mycursor.lastrowid
 
-def stage_one(location,event,tag): #inserts location, event, and tag, and returns a tuple [idlocation,idevent,idtag] order is location > event > tag
+def stage_one(location,event,tag): #inserts location, event, and array of tags, and returns a tuple [idlocation,idevent,idtag] order is location > event > tags
 	temp=db_connect()
 	mydb=temp[0]
 	mycursor=temp[1]
+	idtags=[]
 	#insert location
 	#get idlocation
 	#set event.idlocation=idlocation
 	#insert event
 	#get idevent
 	#set event.idevent=idevent
-	#insert tag
-	#get idtag
-	#set tag.idtag=idevent
-	#insert tagevent
+	#insert array of tags
+	#get all idtag
+	#set idatags.append(idtag)
+	#loop insert tagevents
 	mydb.commit()
 
-def stage_two(idevent, media, url, user, post,location): #inserts media, url, user, location, and post. order is location > user > post > url > media, returns nothing
+def stage_two(idevent, media, url, user, post,location): #inserts media array, url array, user, location, and post. order is location > user > post > url > media, returns nothing
 	temp=db_connect()
 	mydb=temp[0]
 	mycursor=temp[1]
+	idurls=[]
+	idmedias=[]
 	#insert location
 	#get idlocation
 	#insert user
@@ -42,10 +45,10 @@ def stage_two(idevent, media, url, user, post,location): #inserts media, url, us
 	#set post.iduser=iduser
 	#insert post
 	#get idpost
-	#insert url
-	#get idurl
-	#insert media
-	#get idmedia
+	#insert url array
+	#get idurls
+	#insert media array
+	#get idmedias
 	#insert media_post
 	#insert postevent
 	#insert url_post

@@ -31,10 +31,12 @@ def stage_one(location,event,tag): #inserts location, event, and tag, and return
 	#insert tagevent
 	mydb.commit()
 
-def stage_two(idevent, media, url, user, post): #inserts media, url, user, and post. order is user > post > url > media, returns nothing
+def stage_two(idevent, media, url, user, post,location): #inserts media, url, user, location, and post. order is location > user > post > url > media, returns nothing
 	temp=db_connect()
 	mydb=temp[0]
 	mycursor=temp[1]
+	#insert location
+	#get idlocation
 	#insert user
 	#get iduser
 	#set post.iduser=iduser

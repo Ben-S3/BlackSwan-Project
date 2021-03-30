@@ -19,7 +19,7 @@ auth.set_access_token('3930122292-nE61z1YrkLLtfWCiDDLQJI6AylW62EJHBpZ8jWt',
 
 api = tweepy.API(auth)
 
-keyword = "Suez Canal Evergreen Ever AND Given"
+keyword = "Suez Canal Evergreen"
 start_year = 2021
 start_month = 3
 start_day = 26
@@ -35,7 +35,8 @@ end_date = datetime.datetime(int(end_year), int(end_month), int(end_day), 0, 0, 
 Twitter_parser.parseSearchData("SuezCanalBlocked", start_date.date, start_date.time, end_date.date, end_date.time, 30.57, 32.29, "Suez Canal", 10, tags)
 
 keyword += " -filter:retweets"
-for status1 in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyword, tweet_mode = "extended").items(100):
+geocode = "30.57,32.29,1000mi"
+for status1 in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyword, geocode = geocode, tweet_mode = "extended").items(100):
     isComment = False
     if status1.in_reply_to_status_id_str is not None:
         isComment = True

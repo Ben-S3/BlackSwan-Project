@@ -21,6 +21,7 @@ class Tarray(enum.Enum):
     Comment = 17
     Dislike = 18
     isComment = 19
+    Parent = 20
     PostURL = 21
     Sensitive = 22
     Lang = 23
@@ -45,7 +46,7 @@ def parseTweet(tweetArray):
     tweet_user = database_objects.user(None, tweetArray[Tarray.Name.value], tweetArray[Tarray.Website.value], tweetArray[Tarray.Screenname.value])
     tweet_loc = database_objects.location(None, tweetArray[Tarray.Long.value], tweetArray[Tarray.Lat.value], tweetArray[Tarray.Loc.value], tweetArray[Tarray.Rad.value])
     tweet_url = database_objects.url(None, tweetArray[Tarray.URL.value])
-    tweet_post = database_objects.post(None, tweetArray[Tarray.Title.value], tweetArray[Tarray.Date.value], tweetArray[Tarray.Time.value], tweetArray[Tarray.Desc.value], tweetArray[Tarray.Like.value], tweetArray[Tarray.Comment.value], tweetArray[Tarray.Dislike.value], tweetArray[Tarray.isComment.value], None, tweetArray[Tarray.PostURL.value], tweetArray[Tarray.Sensitive.value], tweetArray[Tarray.Lang.value], tweetArray[Tarray.Share.value], None, None)
+    tweet_post = database_objects.post(None, tweetArray[Tarray.Title.value], tweetArray[Tarray.Date.value], tweetArray[Tarray.Time.value], tweetArray[Tarray.Desc.value], tweetArray[Tarray.Like.value], tweetArray[Tarray.Comment.value], tweetArray[Tarray.Dislike.value], tweetArray[Tarray.isComment.value], tweetArray[Tarray.Parent.value], tweetArray[Tarray.PostURL.value], tweetArray[Tarray.Sensitive.value], tweetArray[Tarray.Lang.value], tweetArray[Tarray.Share.value], None, None)
     tweet_media = database_objects.media(None, tweetArray[Tarray.Data.value], tweetArray[Tarray.Media.value], tweetArray[Tarray.Runtime.value])
 
     insertTweet(tweet_user, tweet_post, tweet_loc, tweet_url, tweet_media)

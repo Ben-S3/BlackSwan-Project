@@ -6,7 +6,7 @@
 import math
 
 class user:
-	idUser
+	id_
 	username
 	website
 	displayname
@@ -17,41 +17,41 @@ class user:
 		self.displayname=displayname
 
 class event:
-	idevent
+	id_
 	name
 	date_start
 	time_start
 	date_end
 	time_end
-	idLocation
-	def __init__(self,idevent,name,date_start,time_start,date_end,time_end,idLocation):
-		self.idevent=idevent
+	idlocation
+	def __init__(self,id_,name,date_start,time_start,date_end,time_end,idLocation):
+		self.id_=id_
 		self.name=name
 		self.date_start=date_start
 		self.time_start=time_start
 		self.date_end=date_end
 		self.time_end=time_end
-		self.idLocation=idLocation
+		self.idlocation=idlocation
 	def is_during_event(date,time): #check if date and time is during event
 		#TODO
 	def is_during_event(event1): #check if event intersects with this event
 		#TODO
 
 class tag:
-	idtag
+	id_
 	name
-	def __init__(self,idtag, name):
-		self.idtag=idtag
+	def __init__(self,id_, name):
+		self.id_=id_
 		self.name=name
 	
 class location:
-	idLocation
+	id_
 	gps_long
 	gps_lat
 	name
 	radius
-	def __init__(self,idLocation, gps_long, gps_lat,name, radius):
-		self.idLocation=idLocation
+	def __init__(self,id_, gps_long, gps_lat,name, radius):
+		self.id_=id_
 		self.gps_long=gps_long
 		self.gps_lat=gps_lat
 		self.name=name
@@ -71,10 +71,10 @@ class location:
 		
 
 class url:
-	idurl
+	id_
 	url
-	def __init__(self,idurl, url):
-		self.idurl=idurl
+	def __init__(self,id_, url):
+		self.id_=id_
 		self.url=url
 	def resolve_url(): #resolve true destination of the url
 		#TODO
@@ -82,7 +82,7 @@ class url:
 		#TODO
 
 class post:
-	idPost
+	id_
 	title
 	date
 	time
@@ -98,8 +98,8 @@ class post:
 	sharecount
 	idUser
 	idLocation
-	def __init__(self,idPost,title,date,time,description,like_num,comment_num,dislike_num,is_comment,parentid,url,issensitive,language,sharecount,idUser):
-		self.idPost=idPost
+	def __init__(self,id_,title,date,time,description,like_num,comment_num,dislike_num,is_comment,parentid,url,issensitive,language,sharecount,idUser):
+		self.id_=id_
 		self.title=title
 		self.date=date
 		self.time=time
@@ -121,12 +121,12 @@ class post:
 		return (like_num + sharecount) / comment_num
 
 class media:
-	idmedia
+	id_
 	data
 	media_type
 	runtime
-	def __init__():
-		self.idmedia=idmedia
+	def __init__(id_, data, media_type,runtime):
+		self.id_=id_
 		self.data=data
 		self.media_type=media_type
 		self.runtime=runtime

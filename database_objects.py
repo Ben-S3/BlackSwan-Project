@@ -98,7 +98,7 @@ class post:
 	sharecount
 	idUser
 	idLocation
-	def __init__(self,id_,title,date,time,description,like_num,comment_num,dislike_num,is_comment,parentid,url,issensitive,language,sharecount,idUser):
+	def __init__(self,id_,title,date,time,description,like_num,comment_num,dislike_num,is_comment,parentid,url,issensitive,language,sharecount,idUser,idLocation):
 		self.id_=id_
 		self.title=title
 		self.date=date

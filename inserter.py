@@ -55,8 +55,14 @@ def stage_two(idevent, medias, urls, user, post,location): #inserts media array,
 	temp=db_connect()
 	mydb=temp[0]
 	mycursor=temp[1]
+	
 	#insert location
+	location_statement="INSERT INTO location (gps_long,gps_lat,name, radius) VALUES ( %s,%s, %s,%s)"
+	location_val=(location.gps_long,location.gps_lat,location.name, location.radius)
+	mycursor.execute(location_statement, location_val)
 	#get idlocation
+	location.id_=mycursor.lastrowid
+	
 	#insert user
 	user_statement="INSERT INTO user (username,website,displayname) VALUES ( %s,%s, %s)"
 	user_val=(user.username,user.website,user.displayname)
@@ -65,8 +71,8 @@ def stage_two(idevent, medias, urls, user, post,location): #inserts media array,
 	user.id_=mycursor.lastrowid
 	
 	#insert post
-	post_statement="INSERT INTO post (title,date,time,description,like_num,comment_num,dislike_num,is_comment,parentid,url,issensitive,language,sharecount,idUser) VALUES ( %s,%s, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-	post_val=(post.title,post.date,post.time,post.description,post.like_num,post.comment_num,post.dislike_num,post.is_comment,post.parentid,post.url,post.issensitive,post.language,post.sharecount,user.id_)
+	post_statement="INSERT INTO post (title,date,time,description,like_num,comment_num,dislike_num,is_comment,parentid,url,issensitive,language,sharecount,idUser,idLocation) VALUES ( %s,%s, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+	post_val=(post.title,post.date,post.time,post.description,post.like_num,post.comment_num,post.dislike_num,post.is_comment,post.parentid,post.url,post.issensitive,post.language,post.sharecount,user.id_,location.id_)
 	mycursor.execute(post_statement, post_val)
 	#get idpost
 	post.id_=mycursor.lastrowid

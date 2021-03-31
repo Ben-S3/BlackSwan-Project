@@ -1,6 +1,6 @@
 # Author: Hope Church
 # Date Created: 3/17/2021
-# Date updated: 3/18/2021
+# Date updated: 3/31/2021
 # Description: pseudo object-relational mapping of database tables as python objects
 
 import math
@@ -24,7 +24,7 @@ class event:
 	date_end
 	time_end
 	idlocation
-	def __init__(self,id_,name,date_start,time_start,date_end,time_end,idLocation):
+	def __init__(self,id_,name,date_start,time_start,date_end,time_end,idlocation):
 		self.id_=id_
 		self.name=name
 		self.date_start=date_start

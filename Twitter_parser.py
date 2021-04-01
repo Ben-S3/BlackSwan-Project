@@ -1,6 +1,6 @@
 # Author: Benjamin Stark & Bradley Franklin
 # Date Created: 3/28/2021
-# Date updated: 3/30/2021
+# Date updated: 3/31/2021
 # Description: Twitter parser for turning tweets into database objects
 
 import enum
@@ -47,7 +47,8 @@ def parseTweet(tweetArray, idevent):
     tweet_loc = database_objects.location(None, tweetArray[Tarray.Long.value], tweetArray[Tarray.Lat.value], tweetArray[Tarray.Loc.value], tweetArray[Tarray.Rad.value])
     tweet_url[0] = database_objects.url(None, tweetArray[Tarray.URL.value])
     tweet_post = database_objects.post(None, tweetArray[Tarray.Title.value], tweetArray[Tarray.Date.value], tweetArray[Tarray.Time.value], tweetArray[Tarray.Desc.value], tweetArray[Tarray.Like.value], tweetArray[Tarray.Comment.value], tweetArray[Tarray.Dislike.value], tweetArray[Tarray.isComment.value], None, tweetArray[Tarray.PostURL.value], tweetArray[Tarray.Sensitive.value], tweetArray[Tarray.Lang.value], tweetArray[Tarray.Share.value], None, None)
+    Downloader.downloadMedia(int(tweetArray[Tarray.PostURL.value][35:]))
     tweet_media[0] = database_objects.media(None, tweetArray[Tarray.Data.value], tweetArray[Tarray.Media.value], tweetArray[Tarray.Runtime.value])
-
+    
     inserter.stage_two(idevent, tweet_media, tweet_url, tweet_user, tweet_post, tweet_loc)
 

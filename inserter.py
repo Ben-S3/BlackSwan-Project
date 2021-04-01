@@ -63,18 +63,27 @@ def stage_two(idevent, medias, urls, user, post,location): #inserts media array,
 	mycursor=temp[1]
 	
 	#insert location
-	location_statement="INSERT INTO location (gps_long,gps_lat,name, radius) VALUES ( %s,%s, %s,%s)"
-	location_val=(location.gps_long,location.gps_lat,location.name, location.radius)
-	mycursor.execute(location_statement, location_val)
-	#get idlocation
-	location.id_=mycursor.lastrowid
+	if location.gps_lat is not None or location.gps_long is not None or location.name is not None:
+		location_statement="INSERT INTO location (gps_long,gps_lat,name, radius) VALUES ( %s,%s, %s,%s)"
+		location_val=(location.gps_long,location.gps_lat,location.name, location.radius)
+		mycursor.execute(location_statement, location_val)
+		#get idlocation
+		location.id_=mycursor.lastrowid
 	
-	#insert user
-	user_statement="INSERT INTO user (username,website,displayname) VALUES ( %s,%s, %s)"
-	user_val=(user.username,user.website,user.displayname)
-	mycursor.execute(user_statement, user_val)
-	#get userid
-	user.id_=mycursor.lastrowid
+	#test if user exists
+	user_test="SELECT * FROM user WHERE username=%s AND website=%s"
+	user_test_val=(user.username,user.website)
+	mycursor.execute(user_test, user_test_val)
+	result=mycursor.fetchone()
+	if not result:
+		#insert user
+		user_statement="INSERT INTO user (username,website,displayname) VALUES ( %s,%s, %s)"
+		user_val=(user.username,user.website,user.displayname)
+		mycursor.execute(user_statement, user_val)
+		#get userid
+		user.id_=mycursor.lastrowid
+	else:
+		user.id_=int(result[0])
 	
 	#insert post
 	post_statement="INSERT INTO post (title,date,time,description,like_num,comment_num,dislike_num,is_comment,parentid,url,issensitive,language,sharecount,idUser,idLocation) VALUES ( %s,%s, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
@@ -89,34 +98,36 @@ def stage_two(idevent, medias, urls, user, post,location): #inserts media array,
 		#insert a url
 		url_statement="INSERT INTO url (url) VALUES ( %s)"
 		url_val=(cur.url,)
-		try:
-			mycursor.execute(url_statement, url_val)
-			#set url id
-			urls[temp].id_=mycursor.lastrowid
-		except mysql.connector.errors.IntegrityError:
-			err_statement="SELECT id FROM url WHERE url=%s"
-			err_val=(cur.url,)
-			mycursor.execute(err_statement, err_val)
-			urls[temp].id_ = int(mycursor.fetchone()[0])
-		url_post_statement="INSERT INTO url_post (idPost,idurl) VALUES ( %s,%s)"
-		url_post_val=(post.id_,urls[temp].id_)
-		mycursor.execute(url_post_statement, url_post_val)
+		if cur.url is not None:
+			try:
+				mycursor.execute(url_statement, url_val)
+				#set url id
+				urls[temp].id_=mycursor.lastrowid
+			except mysql.connector.errors.IntegrityError:
+				err_statement="SELECT id FROM url WHERE url=%s"
+				err_val=(cur.url,)
+				mycursor.execute(err_statement, err_val)
+				urls[temp].id_ = int(mycursor.fetchone()[0])
+			url_post_statement="INSERT INTO url_post (idPost,idurl) VALUES ( %s,%s)"
+			url_post_val=(post.id_,urls[temp].id_)
+			mycursor.execute(url_post_statement, url_post_val)
 	
 	#insert media array
 	for temp in range(len(medias)):
 		cur=medias[temp]
 		#insert a tag
 		media_statement="INSERT INTO media (data, media_type,runtime) VALUES (%s,%s,%s)"
-		media_val=(cur.data, cur.media_type,cur.runtime)
-		mycursor.execute(media_statement, media_val)
-		#set tag id
-		medias[temp].id_=mycursor.lastrowid
-	
-	#insert media_post
-	for temp in medias:
-		media_post_statement="INSERT INTO media_post (idpost, idmedia) VALUES ( %s,%s)"
-		media_post_val=(post.id_,temp.id_)
-		mycursor.execute(media_post_statement, media_post_val)
+		if cur.data is not None:
+			media_val=(cur.data, cur.media_type,cur.runtime)
+			mycursor.execute(media_statement, media_val)
+			#set tag id
+			medias[temp].id_=mycursor.lastrowid
+			#insert media_post
+			media_post_statement="INSERT INTO media_post (idpost, idmedia) VALUES ( %s,%s)"
+			media_post_val=(post.id_,medias[temp].id_)
+			mycursor.execute(media_post_statement, media_post_val)
+
+		
 		
 	#insert postevent
 	postevent_statement="INSERT INTO postevent (idPost,idevent) VALUES ( %s,%s)"

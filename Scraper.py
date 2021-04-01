@@ -32,7 +32,14 @@ tags = ["Suez", "Canal", "Evergreen", "Ever", "Given"]
 start_date = datetime.datetime(int(start_year), int(start_month), int(start_day), 0, 0, 0)
 end_date = datetime.datetime(int(end_year), int(end_month), int(end_day), 0, 0, 0)
 
-Twitter_parser.parseSearchData("SuezCanalBlocked", start_date.date, start_date.time, end_date.date, end_date.time, 30.57, 32.29, "Suez Canal", 10, tags)
+start_time=start_date.strftime("%H:%M:%S")
+end_time=end_date.strftime("%H:%M:%S")
+
+start_date=start_date.strftime("%Y-%m-%d")
+end_date=end_date.strftime("%Y-%m-%d")
+
+
+idevent=Twitter_parser.parseSearchData("SuezCanalBlocked", start_date, start_time, end_date, end_time, 30.57, 32.29, "Suez Canal", 10, tags)[1]
 
 keyword += " -filter:retweets"
 geocode = "30.57,32.29,1000mi"
@@ -46,6 +53,6 @@ for status1 in tweepy.Cursor(api.search, since=start_date, until=end_date, q=key
              "https://twitter.com/twitter/status/" + status1.id_str, False, status1.lang,
              0, None, None, None, None, None, None]
     print(tweet)
-    Twitter_parser.parseTweet(tweet)
+    Twitter_parser.parseTweet(tweet,idevent)
 
 

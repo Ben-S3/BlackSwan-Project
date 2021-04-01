@@ -6,10 +6,10 @@
 import math
 
 class user:
-	id_
-	username
-	website
-	displayname
+	id_=0
+	username=""
+	website=""
+	displayname=""
 	def __init__(self,idUser,username,website,displayname):
 		self.idUser=idUser
 		self.username=username
@@ -17,13 +17,13 @@ class user:
 		self.displayname=displayname
 
 class event:
-	id_
-	name
-	date_start
-	time_start
-	date_end
-	time_end
-	idlocation
+	id_=0
+	name=""
+	date_start=""
+	time_start=""
+	date_end=""
+	time_end=""
+	idlocation=0
 	def __init__(self,id_,name,date_start,time_start,date_end,time_end,idlocation):
 		self.id_=id_
 		self.name=name
@@ -33,23 +33,23 @@ class event:
 		self.time_end=time_end
 		self.idlocation=idlocation
 	def is_during_event(date,time): #check if date and time is during event
-		#TODO
+		return None
 	def is_during_event(event1): #check if event intersects with this event
-		#TODO
+		return None
 
 class tag:
-	id_
-	name
+	id_=0
+	name=""
 	def __init__(self,id_, name):
 		self.id_=id_
 		self.name=name
 	
 class location:
-	id_
-	gps_long
-	gps_lat
-	name
-	radius
+	id_=0
+	gps_long=""
+	gps_lat=""
+	name=""
+	radius=0
 	def __init__(self,id_, gps_long, gps_lat,name, radius):
 		self.id_=id_
 		self.gps_long=gps_long
@@ -71,33 +71,33 @@ class location:
 		
 
 class url:
-	id_
-	url
+	id_=0
+	url=""
 	def __init__(self,id_, url):
 		self.id_=id_
 		self.url=url
 	def resolve_url(): #resolve true destination of the url
-		#TODO
+		return None
 	def grab_url(): #download contents of url
-		#TODO
+		return None
 
 class post:
-	id_
-	title
-	date
-	time
-	description
-	like_num
-	comment_num
-	dislike_num
-	is_comment
-	parentid
-	url
-	issensitive
-	language
-	sharecount
-	idUser
-	idLocation
+	id_=0
+	title=""
+	date=""
+	time=""
+	description=""
+	like_num=0
+	comment_num=0
+	dislike_num=0
+	is_comment=False
+	parentid=0
+	url=""
+	issensitive=False
+	language=""
+	sharecount=0
+	idUser=0
+	idLocation=0
 	def __init__(self,id_,title,date,time,description,like_num,comment_num,dislike_num,is_comment,parentid,url,issensitive,language,sharecount,idUser,idLocation):
 		self.id_=id_
 		self.title=title
@@ -121,17 +121,17 @@ class post:
 		return (like_num + sharecount) / comment_num
 
 class media:
-	id_
-	data
-	media_type
-	runtime
+	id_=0
+	data=""
+	media_type=""
+	runtime=""
 	def __init__(id_, data, media_type,runtime):
 		self.id_=id_
 		self.data=data
 		self.media_type=media_type
 		self.runtime=runtime
 	def is_same(media1): #determine if media is the same as another media #beyond minimal product
-		#TODO
+		return None
 		return None
 	def compress(): #compress media to save space, beyond minimal product
-		#TODO
+		return None

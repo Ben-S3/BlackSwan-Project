@@ -2,7 +2,7 @@
 # Date Created: 3/27/2021
 # Date updated: 3/31/2021
 # Description: inserts objects into database given by parser
-import database_objects.py #not how you import files, here for reference
+import database_objects as dbo #not how you import files, here for reference
 import mysql.connector
 
 
@@ -38,18 +38,24 @@ def stage_one(location,event,tags): #inserts location, event, and array of tags,
 		cur=tags[temp]
 		#insert a tag
 		tag_statement="INSERT INTO tag (name) VALUES (%s)"
-		tag_val=(cur.name)
-		mycursor.execute(tag_statement, tag_val)
-		#set tag id
-		tags[temp].id_=mycursor.lastrowid
-	
-	#loop insert tagevents
-	for temp in tags:
+		tag_val=(cur.name,)
+		try:
+			mycursor.execute(tag_statement, tag_val)
+			#set tag id
+			tags[temp].id_=mycursor.lastrowid
+		except mysql.connector.errors.IntegrityError:
+			err_statement="SELECT id FROM tag WHERE name=%s"
+			err_val=(cur.name,)
+			mycursor.execute(err_statement, err_val)
+			tags[temp].id_ = int(mycursor.fetchone()[0])
 		tagevent_statement="INSERT INTO tagevent (idtag,idevent) VALUES ( %s,%s)"
-		tagevent_val=(temp.id_,event.id_)
+		tagevent_val=(tags[temp].id_ , event.id_)
 		mycursor.execute(tagevent_statement, tagevent_val)
+		
+	
+
 	mydb.commit()
-	return [location.idLocation, event.idevent]
+	return [location.id_, event.id_]
 
 def stage_two(idevent, medias, urls, user, post,location): #inserts media array, url array, user, location, and post. order is location > user > post > url > media, returns nothing
 	temp=db_connect()
@@ -82,10 +88,19 @@ def stage_two(idevent, medias, urls, user, post,location): #inserts media array,
 		cur=urls[temp]
 		#insert a url
 		url_statement="INSERT INTO url (url) VALUES ( %s)"
-		url_val=(cur.url)
-		mycursor.execute(url_statement, url_val)
-		#set url id
-		urls[temp].id_=mycursor.lastrowid
+		url_val=(cur.url,)
+		try:
+			mycursor.execute(url_statement, url_val)
+			#set url id
+			urls[temp].id_=mycursor.lastrowid
+		except mysql.connector.errors.IntegrityError:
+			err_statement="SELECT id FROM url WHERE url=%s"
+			err_val=(cur.url,)
+			mycursor.execute(err_statement, err_val)
+			urls[temp].id_ = int(mycursor.fetchone()[0])
+		url_post_statement="INSERT INTO url_post (idPost,idurl) VALUES ( %s,%s)"
+		url_post_val=(post.id_,urls[temp].id_)
+		mycursor.execute(url_post_statement, url_post_val)
 	
 	#insert media array
 	for temp in range(len(medias)):
@@ -108,11 +123,7 @@ def stage_two(idevent, medias, urls, user, post,location): #inserts media array,
 	postevent_val=(post.id_,idevent)
 	mycursor.execute(postevent_statement, postevent_val)
 		
-	#insert url_post
-	for temp in urls:
-		url_post_statement="INSERT INTO url_post (idPost,idurl) VALUES ( %s,%s)"
-		url_post_val=(post.id_,temp.id_)
-		mycursor.execute(url_post_statement, url_post_val)
+
 	
 	mydb.commit()
 	
@@ -128,3 +139,14 @@ def db_connect():
 	return [mydb, mycursor]
 
 #testing zone
+def testing():
+	testevent=dbo.event(None, "testevent", "2020-10-10", "11:00:00","2020-10-10", "11:00:00",None)
+	testlocation=dbo.location(None, "0.0","0.0","testlocation","100")
+	testuser=dbo.user(None,"testuser","twitter.com","displayname") 
+	testpost=dbo.post(None,"title","2020-10-10","11:00:00","description",15,15,15,False,None,"twitter.com",False,"en",17,None,None)
+	testmedia=dbo.media(None, "testdata","png","00:00")
+	testtag=dbo.tag(None,"testtag")
+	testurl=dbo.url(None,"twitter.com")
+	temp=stage_one(testlocation,testevent,[testtag])
+	idevent=temp[1]
+	stage_two(idevent,[testmedia], [testurl],testuser,testpost,testlocation)

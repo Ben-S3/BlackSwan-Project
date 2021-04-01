@@ -38,10 +38,10 @@ end_time=end_date.strftime("%H:%M:%S")
 start_date=start_date.strftime("%Y-%m-%d")
 end_date=end_date.strftime("%Y-%m-%d")
 
-Twitter_parser.parseSearchData("SuezCanalBlocked", start_date.date, start_date.time, end_date.date, end_date.time, 30.57, 32.29, "Suez Canal", 10, tags)[1]
+Twitter_parser.parseSearchData("SuezCanalBlocked", start_date.date, start_date.time, end_date.date, end_date.time, 30.57, 32.29, "Suez Canal", 100, tags)[1]
 
 keyword += " -filter:retweets"
-geocode = "30.57,32.29,10mi"
+geocode = "30.57,32.29,100mi"
 for status in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyword, geocode = geocode, tweet_mode = "extended").items(100):
     isComment = False
     if status.in_reply_to_status_id_str is not None:

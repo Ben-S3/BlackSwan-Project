@@ -1,6 +1,6 @@
-# Author: Bradley Franklin
+# Author: Bradley Franklin & Hope Church
 # Date Created: 2/9/2021
-# Date updated: 3/30/2021
+# Date updated: 4/1/2021
 # Description: Scraper of Twitter for Hard-Coded Demo of Useability
 
 import sys
@@ -38,21 +38,47 @@ end_time=end_date.strftime("%H:%M:%S")
 start_date=start_date.strftime("%Y-%m-%d")
 end_date=end_date.strftime("%Y-%m-%d")
 
-
-idevent=Twitter_parser.parseSearchData("SuezCanalBlocked", start_date, start_time, end_date, end_time, 30.57, 32.29, "Suez Canal", 10, tags)[1]
+Twitter_parser.parseSearchData("SuezCanalBlocked", start_date.date, start_date.time, end_date.date, end_date.time, 30.57, 32.29, "Suez Canal", 10, tags)[1]
 
 keyword += " -filter:retweets"
-geocode = "30.57,32.29,1000mi"
-for status1 in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyword, geocode = geocode, tweet_mode = "extended").items(100):
+geocode = "30.57,32.29,10mi"
+for status in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyword, geocode = geocode, tweet_mode = "extended").items(100):
     isComment = False
-    if status1.in_reply_to_status_id_str is not None:
+    if status.in_reply_to_status_id_str is not None:
         isComment = True
-    tweet = [None, status1.user.screen_name, "twitter.com", status1.user.name, None, None, None, None, 24, None,
-             None, None, None, str(status1.created_at)[:10], str(status1.created_at)[11:], status1.full_text,
-             status1.favorite_count, status1.retweet_count, 0, isComment, None,
-             "https://twitter.com/twitter/status/" + status1.id_str, False, status1.lang,
+    tweet = [None, status.user.screen_name, "twitter.com", status.user.name, None, None, None, None, 10, None,
+             None, None, None, str(status.created_at)[:10], str(status.created_at)[11:], status.full_text,
+             status.favorite_count, status.retweet_count, 0, isComment, None,
+             "https://twitter.com/twitter/status/" + status.id_str, False, status.lang,
              0, None, None, None, None, None, None]
     print(tweet)
     Twitter_parser.parseTweet(tweet,idevent)
 
+Twitter_parser.parseSearchData("SuezCanalBlocked", start_date.date, start_date.time, end_date.date, end_date.time, 40.71, -74.00, "New York City", 10, tags)[1]
+geocode = "40.71,-74.00,10mi"
+for status in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyword, geocode = geocode, tweet_mode = "extended").items(100):
+    isComment = False
+    if status.in_reply_to_status_id_str is not None:
+        isComment = True
+    tweet = [None, status.user.screen_name, "twitter.com", status.user.name, None, None, None, None, 10, None,
+             None, None, None, str(status.created_at)[:10], str(status.created_at)[11:], status.full_text,
+             status.favorite_count, status.retweet_count, 0, isComment, None,
+             "https://twitter.com/twitter/status/" + status.id_str, False, status.lang,
+             0, None, None, None, None, None, None]
+    print(tweet)
+    Twitter_parser.parseTweet(tweet,idevent)
+
+Twitter_parser.parseSearchData("SuezCanalBlocked", start_date.date, start_date.time, end_date.date, end_date.time, 29.76, -95.36, "Houston, Texas", 10, tags)[1]
+geocode = "29.76,-95.36,10mi"
+for status in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyword, geocode = geocode, tweet_mode = "extended").items(100):
+    isComment = False
+    if status.in_reply_to_status_id_str is not None:
+        isComment = True
+    tweet = [None, status.user.screen_name, "twitter.com", status.user.name, None, None, None, None, 10, None,
+             None, None, None, str(status.created_at)[:10], str(status.created_at)[11:], status.full_text,
+             status.favorite_count, status.retweet_count, 0, isComment, None,
+             "https://twitter.com/twitter/status/" + status.id_str, False, status.lang,
+             0, None, None, None, None, None, None]
+    print(tweet)
+    Twitter_parser.parseTweet(tweet,idevent)
 

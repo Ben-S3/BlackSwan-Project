@@ -1,5 +1,6 @@
-#Author: Brian Contreras & BS
+#Author: Brian Contreras & BS & Bradley Franklin
 #Date: 3/30/2021
+#Update: 3/31/2021
 #Description: A class to download the media data from a tweet
 
 import wget
@@ -48,6 +49,4 @@ def mediaType(tweet):
         return "animated_gif"
 
 def downloadMediaFile(tweet):
-    media_file = tweet.extended_entities.media.media_url
-    wget.download(media_file)
-
+    wget.download(tweet.extended_entities['media'][0]['media_url'])

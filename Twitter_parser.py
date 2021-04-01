@@ -45,11 +45,12 @@ def parseSearchData(eventName, dataStart, timeStart, dateEnd, timeEnd, latitude,
 def parseTweet(tweetArray, idevent):
     tweet_url=[]
     tweet_media=[]
+    print(Tarray.URL.value)
     tweet_user = database_objects.user(None, tweetArray[Tarray.Name.value], tweetArray[Tarray.Website.value], tweetArray[Tarray.Screenname.value])
     tweet_loc = database_objects.location(None, tweetArray[Tarray.Long.value], tweetArray[Tarray.Lat.value], tweetArray[Tarray.Loc.value], tweetArray[Tarray.Rad.value])
-    tweet_url[0] = database_objects.url(None, tweetArray[Tarray.URL.value])
+    tweet_url.append(database_objects.url(None, tweetArray[Tarray.URL.value]))
     tweet_post = database_objects.post(None, tweetArray[Tarray.Title.value], tweetArray[Tarray.Date.value], tweetArray[Tarray.Time.value], tweetArray[Tarray.Desc.value], tweetArray[Tarray.Like.value], tweetArray[Tarray.Comment.value], tweetArray[Tarray.Dislike.value], tweetArray[Tarray.isComment.value], None, tweetArray[Tarray.PostURL.value], tweetArray[Tarray.Sensitive.value], tweetArray[Tarray.Lang.value], tweetArray[Tarray.Share.value], None, None)
-    tweet_media[0] = database_objects.media(None, tweetArray[Tarray.Data.value], tweetArray[Tarray.Media.value], tweetArray[Tarray.Runtime.value])
+    tweet_media.append(database_objects.media(None, tweetArray[Tarray.Data.value], tweetArray[Tarray.Media.value], tweetArray[Tarray.Runtime.value]))
 
     inserter.stage_two(idevent, tweet_media, tweet_url, tweet_user, tweet_post, tweet_loc)
 

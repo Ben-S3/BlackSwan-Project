@@ -125,7 +125,7 @@ class media:
 	data=""
 	media_type=""
 	runtime=""
-	def __init__(id_, data, media_type,runtime):
+	def __init__(self,id_, data, media_type,runtime):
 		self.id_=id_
 		self.data=data
 		self.media_type=media_type

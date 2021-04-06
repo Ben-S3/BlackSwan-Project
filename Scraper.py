@@ -54,8 +54,8 @@ for status in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyw
     lat = None
     loc = None
     if status.geo is not None:
-        long = status.coordinates['coordinates'][0]
-        lat = status.coordinates['coordinates'][1]
+        long = status.coordinates.coordinates[0]
+        lat = status.coordinates.coordinates[1]
         location = geolocator.reverse(lat, long)
         loc = location.address
     elif status.user.location is not None:

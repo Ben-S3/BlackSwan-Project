@@ -58,9 +58,14 @@ for status in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyw
         lat = status.coordinates.coordinates[1]
         location = geolocator.reverse(lat, long)
         loc = location.address
+    elif status.place is not None:
+        loc = status.place.full_name
+        location = geolocator.geocode(loc)
+        long = location.longitude
+        lat = location.latitude
     elif status.user.location is not None:
         loc = status.user.location
-        location = geolocator.geocode(status.user.location)
+        location = geolocator.geocode(loc)
         long = location.longitude
         lat = location.latitude
     tweet = [None, status.user.screen_name, "twitter.com", status.user.name, None, long, lat, loc, 10, None,

@@ -1,6 +1,6 @@
 # Author: Hope Church
 # Date Created: 3/27/2021
-# Date updated: 3/31/2021
+# Date updated: 4/5/2021
 # Description: inserts objects into database given by parser
 import database_objects as dbo #not how you import files, here for reference
 import mysql.connector
@@ -17,6 +17,9 @@ import mysql.connector
 
 #checks if event exists and returns a list of ids found
 def event_exists(event):
+	temp=db_connect()
+	mydb=temp[0]
+	mycursor=temp[1]
 	print("checking if event exists")
 	test_statement="SELECT id FROM event WHERE name LIKE '%%%s%%'"
 	test_val=(event.name,)

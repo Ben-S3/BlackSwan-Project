@@ -1,9 +1,10 @@
 #Author: Brian Contreras & BS & Bradley Franklin
 #Date: 3/30/2021
-#Update: 3/31/2021
+#Update: 4/09/2021
 #Description: A class to download the media data from a tweet
 
 import wget
+import urllib.request
 import tweepy
 from tweepy import OAuthHandler
 
@@ -20,14 +21,24 @@ def downloadMedia(tweetID):
     if tweetHasMedia(tweet) == False:
         print("Tweet does not have media")
         return 0
+
     else:
         if mediaType(tweet) == "video":
-            downloadMediaFile(tweet)
+            filename = wget.download(tweet.extended_entities['media'][0]['media_url'])
+            urllib.request.urlretrieve(tweet.extended_entities['media'][0]['media_url'], filename)
+            blob = turnToBLOB(filename)
+            return blob
+
         elif mediaType(tweet) == "animated_gif":
             downloadMediaFile(tweet)
+
         elif mediaType(tweet) == "photo":
+            blobs = []
             for x in range(len(tweet.extended_entities['media'])):
-                wget.download(tweet.extended_entities['media'][x]['media_url'])
+                filename = wget.download(tweet.extended_entities['media'][x]['media_url'])
+                blobs[x] = turnToBLOB(filename)
+                #blobs.append(turnToBLOB(filename))
+            return blobs
 
 
 def getTweetData(tweetID):
@@ -50,3 +61,10 @@ def mediaType(tweet):
 
 def downloadMediaFile(tweet):
     wget.download(tweet.extended_entities['media'][0]['media_url'])
+
+def turnToBLOB(filename):
+    with open(filename, 'rb') as file:
+        blob = file.read()
+    return blob
+
+

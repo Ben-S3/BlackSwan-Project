@@ -53,7 +53,7 @@ def parseTweet(tweetArray, idevent):
     tweet_media.append(database_objects.media(None, tweetArray[Tarray.Data.value], tweetArray[Tarray.Media.value], tweetArray[Tarray.Runtime.value]))
     
     for x in Downloader.downloadMedia(int(tweetArray[Tarray.PostURL.value][35:])):
-        tweet_media.append(database_objects.media(None, None, x, None)
+        tweet_media.append(database_objects.media(None, None, x, None))
     
     inserter.stage_two(idevent, tweet_media, tweet_url, tweet_user, tweet_post, tweet_loc)
 

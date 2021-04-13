@@ -54,10 +54,5 @@ def parseTweet(tweetArray, idevent):
     
     tweet_media.append(database_objects.media(None, None,Downloader.downloadMedia(int(tweetArray[Tarray.PostURL.value][35:])), None)
     
-    if tweetArray[Tarray.Long.value] is not None:
-        print(tweetArray[Tarray.Loc.value])
-        print("Coordinates: [" + str(tweetArray[Tarray.Long.value]) + ", " + str(tweetArray[Tarray.Lat.value]) + "]\n")
-    else:
-        print("Coordinates: [None, None]\n")
     inserter.stage_two(idevent, tweet_media, tweet_url, tweet_user, tweet_post, tweet_loc)
 

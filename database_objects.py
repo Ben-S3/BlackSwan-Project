@@ -135,3 +135,19 @@ class media:
 		return None
 	def compress(): #compress media to save space, beyond minimal product
 		return None
+
+#conversion functions
+def tuple_to_event(data):
+	return event(data[0],data[1],data[2],data[3],data[4],data[5],data[6])
+def tuple_to_user(data):
+	return user(data[0],data[1],data[2],data[3])
+def tuple_to_post(data):
+	return post(data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11],data[12],data[13],data[14],data[15])
+def tuple_to_location(data):
+	return location(data[0],data[1],data[2],data[3],data[4])
+def tuple_to_tag(data):
+	return tag(data[0],data[1])
+def tuple_to_url(data):
+	return url(data[0],data[1])
+def tuple_to_media(data):
+	return media(data[0],data[1],data[2],data[3])

@@ -25,11 +25,11 @@ geolocator = Nominatim(user_agent = "BSTwitterScraper")
 
 keyword = "Suez Canal Evergreen"
 start_year = 2021
-start_month = 3
-start_day = 26
+start_month = 4
+start_day = 6
 end_year = 2021
 end_month = 4
-end_day = 2
+end_day = 13
 
 tags = ["Suez", "Canal", "Evergreen", "Ever", "Given"]
 

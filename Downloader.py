@@ -20,7 +20,7 @@ def downloadMedia(tweetID):
     tweet = getTweetData(tweetID)
     if tweetHasMedia(tweet) == False:
         print("Tweet does not have media")
-        return 0
+        return []
 
     else:
         blobs = []

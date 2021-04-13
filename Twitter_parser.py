@@ -31,6 +31,7 @@ class Tarray(enum.Enum):
 
 import database_objects
 import inserter
+import Downloader
 
 def parseSearchData(eventName, dataStart, timeStart, dateEnd, timeEnd, latitude, longitude, loc_name, rad, tags):
     event_insert = database_objects.event(None, eventName, dataStart, timeStart, dateEnd, timeEnd, None)
@@ -51,9 +52,8 @@ def parseTweet(tweetArray, idevent):
     tweet_url.append(database_objects.url(None, tweetArray[Tarray.URL.value]))
     tweet_post = database_objects.post(None, tweetArray[Tarray.Title.value], tweetArray[Tarray.Date.value], tweetArray[Tarray.Time.value], tweetArray[Tarray.Desc.value], tweetArray[Tarray.Like.value], tweetArray[Tarray.Comment.value], tweetArray[Tarray.Dislike.value], tweetArray[Tarray.isComment.value], None, tweetArray[Tarray.PostURL.value], tweetArray[Tarray.Sensitive.value], tweetArray[Tarray.Lang.value], tweetArray[Tarray.Share.value], None, None)
     tweet_media.append(database_objects.media(None, tweetArray[Tarray.Data.value], tweetArray[Tarray.Media.value], tweetArray[Tarray.Runtime.value]))
-    
     for x in Downloader.downloadMedia(int(tweetArray[Tarray.PostURL.value][35:])):
-        tweet_media.append(database_objects.media(None, None, x, None))
+        tweet_media.append(database_objects.media(None, x,None, None))
     
     inserter.stage_two(idevent, tweet_media, tweet_url, tweet_user, tweet_post, tweet_loc)
 

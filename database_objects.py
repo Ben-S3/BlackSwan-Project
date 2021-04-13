@@ -10,8 +10,8 @@ class user:
 	username=""
 	website=""
 	displayname=""
-	def __init__(self,idUser,username,website,displayname):
-		self.idUser=idUser
+	def __init__(self,id_,username,website,displayname):
+		self.id_=id_
 		self.username=username
 		self.website=website
 		self.displayname=displayname

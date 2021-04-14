@@ -17,14 +17,15 @@ def db_connect():
 	mycursor = mydb.cursor()
 	return [mydb, mycursor]
 
-#finding events
-
+#-------------------------------------finding events--------------------------------------------#
 def find_events_by_name(name):
 	temp=db_connect()
 	mydb=temp[0]
 	mycursor=temp[1]
 	events=[]
-	event_statement="SELECT id,name,date_start,time_start,date_end,time_end,idlocation FROM event WHERE name LIKE '%%%s%%'"
+	event_statement="""SELECT id,name,date_start,time_start,date_end,time_end,idlocation 
+                    FROM event 
+                    WHERE name LIKE '%%%s%%'"""
 	event_val=(name,)
 	mycursor.execute(event_statement, event_val)
 	tuples=mycursor.fetchall()
@@ -57,7 +58,7 @@ def find_event_by_keywords(keywords):
 		event_statement="""SELECT event.id,event.name,event.date_start,event.time_start,event.date_end,event.time_end,event.idlocation 
 						FROM event e,tag t,tagevent te 
 						WHERE  e.id=te.idevent AND t.id=te.idtag AND t.name LIKE '%%%s%%'"""
-		event_val=(start_date,end_date,start_date,end_date,)
+		event_val=(i,)
 		mycursor.execute(event_statement, event_val)
 		tuples=mycursor.fetchall()
 		for i in tuples:
@@ -73,12 +74,13 @@ def find_event_by_keywords_in_posts(keywords):
 		event_statement="""SELECT event.id,event.name,event.date_start,event.time_start,event.date_end,event.time_end,event.idlocation 
 						FROM event e, postevent pe, post p
 						WHERE  e.id=pe.idevent AND p.id=pe.idPost AND (post.title LIKE '%%%s%%' OR post.description LIKE '%%%s%%')"""
-		event_val=(start_date,end_date,start_date,end_date,)
+		event_val=(i,i)
 		mycursor.execute(event_statement, event_val)
 		tuples=mycursor.fetchall()
 		for i in tuples:
 			events.append(tuple_to_event(i))
 	return events
+
 def find_event_by_location(location):
 	temp=db_connect()
 	mydb=temp[0]
@@ -87,19 +89,21 @@ def find_event_by_location(location):
 	event_statement="""SELECT event.id,event.name,event.date_start,event.time_start,event.date_end,event.time_end,event.idlocation 
 					FROM event e 
 					WHERE e.idlocation='%s'""" 
-	event_val=(name,)
+	event_val=(location.id_,)
 	mycursor.execute(event_statement, event_val)
 	tuples=mycursor.fetchall()
 	for i in tuples:
 		events.append(tuple_to_event(i))
 	return events
+
 def find_event_by_post(post):
 	return None
+
 def find_event_by_user(user):
 	return None
 
 
-#finding locations
+#---------------finding locations-----------------------#
 def find_location_by_post(post):
 	temp=db_connect()
 	mydb=temp[0]
@@ -108,12 +112,13 @@ def find_location_by_post(post):
 	location_statement="""SELECT location.id, location.gps_long, location.gps_lat,location.name, location.radius 
 					FROM location l,post p 
 					WHERE  p.id='%s' AND l.id=p.idLocation"""
-	location_val=(start_date,end_date,start_date,end_date,)
+	location_val=(post.id_,)
 	mycursor.execute(location_statement, location_val)
 	tuples=mycursor.fetchall()
 	for i in tuples:
 		locations.append(tuple_to_location(i))
 	return locations
+
 def find_location_by_event(event):
 	temp=db_connect()
 	mydb=temp[0]
@@ -122,16 +127,17 @@ def find_location_by_event(event):
 	location_statement="""SELECT location.id, location.gps_long, location.gps_lat,location.name, location.radius 
 					FROM location l,event e 
 					WHERE  e.id='%s' AND l.id=e.idlocation"""
-	location_val=(start_date,end_date,start_date,end_date,)
+	location_val=(event.id_,)
 	mycursor.execute(location_statement, location_val)
 	tuples=mycursor.fetchall()
 	for i in tuples:
 		locations.append(tuple_to_location(i))
 	return locations
-def find_location_by_location(location):
+
+def find_location_by_location(location): #find locations that intersect with a location
 	return None
 
-#finding posts
+#----------------------finding posts-----------------------#
 def find_post_by_event(event):
 	temp=db_connect()
 	mydb=temp[0]
@@ -141,7 +147,7 @@ def find_post_by_event(event):
 	post_statement="""SELECT post.id,post.title,post.date,post.time,post.description,post.like_num,post.comment_num,post.dislike_num,post.is_comment,post.parentid,post.url,post.issensitive,post.language,post.sharecount,post.idUser,post.idLocation
 					FROM event e, post p,postevent pe 
 					WHERE  e.id=pe.idevent AND p.id=pe.idPost AND e.id='%s'"""
-	post_val=(start_date,end_date,start_date,end_date,)
+	post_val=(event.id_,)
 	mycursor.execute(post_statement, post_val)
 	tuples=mycursor.fetchall()
 	for i in tuples:
@@ -156,7 +162,7 @@ def find_post_by_user(user):
 	post_statement="""SELECT post.id,post.title,post.date,post.time,post.description,post.like_num,post.comment_num,post.dislike_num,post.is_comment,post.parentid,post.url,post.issensitive,post.language,post.sharecount,post.idUser,post.idLocation
 					FROM user u,post p 
 					WHERE  u.id='%s' AND p.idUser=u.id"""
-	post_val=(start_date,end_date,start_date,end_date,)
+	post_val=(user.id_,)
 	mycursor.execute(post_statement, post_val)
 	tuples=mycursor.fetchall()
 	for i in tuples:
@@ -169,9 +175,9 @@ def find_post_by_location(location):
 	mycursor=temp[1]
 	posts=[]
 	post_statement="""SELECT post.id,post.title,post.date,post.time,post.description,post.like_num,post.comment_num,post.dislike_num,post.is_comment,post.parentid,post.url,post.issensitive,post.language,post.sharecount,post.idUser,post.idLocation
-					FROM location l,post p 
-					WHERE  l.id='%s' AND p.idLocation=l.id"""
-	post_val=(start_date,end_date,start_date,end_date,)
+					FROM post p 
+					WHERE  p.idLocation='%s'"""
+	post_val=(location.id_,)
 	mycursor.execute(post_statement, post_val)
 	tuples=mycursor.fetchall()
 	for i in tuples:
@@ -187,66 +193,78 @@ def find_post_by_url(url):
 	post_statement="""SELECT post.id,post.title,post.date,post.time,post.description,post.like_num,post.comment_num,post.dislike_num,post.is_comment,post.parentid,post.url,post.issensitive,post.language,post.sharecount,post.idUser,post.idLocation
 					FROM url u, post p,url_post up
 					WHERE  u.id=up.idurl AND p.id=up.idPost AND u.id='%s'"""
-	post_val=(start_date,end_date,start_date,end_date,)
+	post_val=(url.id_,)
 	mycursor.execute(post_statement, post_val)
 	tuples=mycursor.fetchall()
 	for i in tuples:
 		posts.append(tuple_to_post(i))
 	return posts
 
-#finding media
+#--------------------------------------finding media---------------------------------#
 	
 def find_media_by_post(post):
 	temp=db_connect()
 	mydb=temp[0]
 	mycursor=temp[1]
-	posts=[]
-	
-	post_statement="""SELECT post.id,post.title,post.date,post.time,post.description,post.like_num,post.comment_num,post.dislike_num,post.is_comment,post.parentid,post.url,post.issensitive,post.language,post.sharecount,post.idUser,post.idLocation
-					FROM url u, post p,url_post up
-					WHERE  u.id=up.idurl AND p.id=up.idPost AND u.id='%s'"""
-	post_val=(start_date,end_date,start_date,end_date,)
-	mycursor.execute(post_statement, post_val)
+	medias=[]
+	media_statement="""SELECT media.id, media.data, media.media_type,media.runtime
+					FROM media m, post p,media_post mp
+					WHERE  m.id=mp.idmedia AND p.id=mp.idpost AND p.id='%s'"""
+	media_val=(post.id_,)
+	mycursor.execute(media_statement, media_val)
 	tuples=mycursor.fetchall()
 	for i in tuples:
-		posts.append(tuple_to_post(i))
-	return posts
-#find url
+		medias.append(tuple_to_media(i))
+	return medias
+
+#-----------------------------------------------------find url--------------------------------------------------#
 def find_url_by_post(post):
 	temp=db_connect()
 	mydb=temp[0]
 	mycursor=temp[1]
-	posts=[]
+	urls=[]
 	
-	post_statement="""SELECT post.id,post.title,post.date,post.time,post.description,post.like_num,post.comment_num,post.dislike_num,post.is_comment,post.parentid,post.url,post.issensitive,post.language,post.sharecount,post.idUser,post.idLocation
+	url_statement="""SELECT url.id, url.url
 					FROM url u, post p,url_post up
-					WHERE  u.id=up.idurl AND p.id=up.idPost AND u.id='%s'"""
-	post_val=(start_date,end_date,start_date,end_date,)
-	mycursor.execute(post_statement, post_val)
+					WHERE  u.id=up.idurl AND p.id=up.idPost AND p.id='%s'"""
+	url_val=(post.id_,)
+	mycursor.execute(url_statement, url_val)
 	tuples=mycursor.fetchall()
 	for i in tuples:
-		posts.append(tuple_to_post(i))
-	return posts
+		urls.append(tuple_to_url(i))
+	return urls
 	
-#finding user
+#----------------------------------finding user-----------------------------#
 def find_user_by_post(post):
 	temp=db_connect()
 	mydb=temp[0]
 	mycursor=temp[1]
-	posts=[]
-	post_statement="""SELECT post.id,post.title,post.date,post.time,post.description,post.like_num,post.comment_num,post.dislike_num,post.is_comment,post.parentid,post.url,post.issensitive,post.language,post.sharecount,post.idUser,post.idLocation
+	users=[]
+	user_statement="""SELECT user.id,user.username,user.website,user.displayname
 					FROM user u,post p 
-					WHERE  u.id='%s' AND p.idUser=u.id"""
-	post_val=(start_date,end_date,start_date,end_date,)
-	mycursor.execute(post_statement, post_val)
+					WHERE  p.id='%s' AND p.idUser=u.id"""
+	user_val=(post.id_,)
+	mycursor.execute(user_statement, user_val)
 	tuples=mycursor.fetchall()
 	for i in tuples:
-		posts.append(tuple_to_post(i))
-	return posts
-def find_user_by_event(event):
-	#complicated query
+		users.append(tuple_to_user(i))
+	return users
 
-#finding tag
+
+#------------------------------------finding tag-----------------------------#
 def find_tag_by_event(event):
+    temp=db_connect()
+	mydb=temp[0]
+	mycursor=temp[1]
+	tags=[]
+	tag_statement="""SELECT event.id,event.name,event.date_start,event.time_start,event.date_end,event.time_end,event.idlocation 
+					FROM event e,tag t,tagevent te 
+					WHERE  e.id='%s' AND t.id=te.idtag AND e.id=te.idevent"""
+	tag_val=(event.id_,)
+	mycursor.execute(tag_statement, tag_val)
+	tuples=mycursor.fetchall()
+	for i in tuples:
+			tags.append(tuple_to_tag(i))
+	return tags
 
 def testing():

@@ -68,8 +68,11 @@ for status in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyw
         location = geolocator.geocode(loc)
         long = location.longitude
         lat = location.latitude
+        tweet_url = []
+    for x in range(len(status.entities['urls'])):
+        tweet_url.append(status.entities['urls'][x]['expanded_url'])
     tweet = [None, status.user.screen_name, "twitter.com", status.user.name, None, long, lat, loc, 10, None,
-             None, None, None, str(status.created_at)[:10], str(status.created_at)[11:], status.full_text,
+             tweet_url, None, None, str(status.created_at)[:10], str(status.created_at)[11:], status.full_text,
              status.favorite_count, status.retweet_count, 0, isComment, None,
              "https://twitter.com/twitter/status/" + status.id_str, False, status.lang,
              0, None, None, None, None, None, None]

@@ -1,6 +1,6 @@
 #Author: Brian Contreras & BS & Bradley Franklin
 #Date: 3/30/2021
-#Update: 4/13/2021
+#Update: 4/16/2021
 #Description: A file to download the media data from a tweet
 
 import wget
@@ -30,9 +30,9 @@ def downloadMedia(tweetID):
 
         #If the media type if a video
         if mediaType(tweet) == "video":
-            filename = wget.download(tweet.extended_entities['media'][0]['media_url'])
-            urllib.request.urlretrieve(tweet.extended_entities['media'][0]['media_url'], filename)
-            blobs.append(turnToBLOB(filename))
+            #filename = wget.download(tweet.extended_entities['media'][0]['media_url'])
+            urllib.request.urlretrieve(tweet.extended_entities['media'][0]['media_url'], 'video.mp4')
+            blobs.append(turnToBLOB('video.mp4'))
             return blobs
 
         #If the media type is a gif

@@ -116,6 +116,52 @@ class App(QMainWindow):
 
         # connect button to function on_click
         self.Cbutton.clicked.connect(self.on_calendar_click)
+        
+        # Start time
+        self.sTime = QComboBox(self)
+        self.sTime.addItem("1:00")
+        self.sTime.addItem("2:00")
+        self.sTime.addItem("3:00")
+        self.sTime.addItem("4:00")
+        self.sTime.addItem("5:00")
+        self.sTime.addItem("6:00")
+        self.sTime.addItem("7:00")
+        self.sTime.addItem("8:00")
+        self.sTime.addItem("9:00")
+        self.sTime.addItem("10:00")
+        self.sTime.addItem("11:00")
+        self.sTime.addItem("12:00")
+        self.sTime.move(20, 320)
+        self.sTime.resize(60, 30)
+
+        self.sTimea = QComboBox(self)
+        self.sTimea.addItem("a.m.")
+        self.sTimea.addItem("p.m.")
+        self.sTimea.move(90, 320)
+        self.sTimea.resize(50, 30)
+
+        # End time
+        self.eTime = QComboBox(self)
+        self.eTime.addItem("1:00")
+        self.eTime.addItem("2:00")
+        self.eTime.addItem("3:00")
+        self.eTime.addItem("4:00")
+        self.eTime.addItem("5:00")
+        self.eTime.addItem("6:00")
+        self.eTime.addItem("7:00")
+        self.eTime.addItem("8:00")
+        self.eTime.addItem("9:00")
+        self.eTime.addItem("10:00")
+        self.eTime.addItem("11:00")
+        self.eTime.addItem("12:00")
+        self.eTime.move(20, 360)
+        self.eTime.resize(60, 30)
+
+        self.eTimea = QComboBox(self)
+        self.eTimea.addItem("a.m.")
+        self.eTimea.addItem("p.m.")
+        self.eTimea.move(90, 360)
+        self.eTimea.resize(50, 30)
 
     @pyqtSlot()
     def on_click(self):

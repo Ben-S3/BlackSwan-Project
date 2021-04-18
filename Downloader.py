@@ -4,7 +4,7 @@
 #Description: A file to download the media data from a tweet
 
 import wget
-import urllib.request
+import os
 import tweepy
 from tweepy import OAuthHandler
 
@@ -26,14 +26,13 @@ def downloadMedia(tweetID):
 
     #If the tweet has media files
     else:
-        blobs = []
-
-        #If the media type if a video
+        media = []
         if mediaType(tweet) == "video":
-            #filename = wget.download(tweet.extended_entities['media'][0]['media_url'])
-            urllib.request.urlretrieve(tweet.extended_entities['media'][0]['media_url'], 'video.mp4')
-            blobs.append(turnToBLOB('video.mp4'))
-            return blobs
+            filename = wget.download(tweet.extended_entities['media'][0]['video_info']['variants'][0]['url'])
+            blobs = turnToBLOB(filename)
+            media.append([blobs, "video",  tweet.extended_entities['media'][0]['video_info']['duration_millis']])
+            os.remove(filename)
+            return media
 
         #If the media type is a gif
         elif mediaType(tweet) == "animated_gif":
@@ -43,8 +42,10 @@ def downloadMedia(tweetID):
         elif mediaType(tweet) == "photo":
             for x in range(len(tweet.extended_entities['media'])):
                 filename = wget.download(tweet.extended_entities['media'][x]['media_url'])
-                blobs.append(turnToBLOB(filename))
-            return blobs
+                blobs = turnToBLOB(filename)
+                media.append([blobs, "photo",  0])
+                os.remove(filename)
+            return media
 
 
 #Function to obtain the tweet itself from the tweet data

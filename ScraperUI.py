@@ -1,27 +1,65 @@
-# Author: Benjamin Stark
+# Author: Benjamin Stark & Bradley Franling
 # Date Created: 4/12/2021
-# Date updated: 4/12/2021
+# Date updated: 4/18/2021
 # Description: UI for scraper
 
 import sys
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QLabel
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QLabel, QCalendarWidget
 from PyQt5.QtGui import QIcon, QDoubleValidator, QIntValidator
 from PyQt5.QtCore import pyqtSlot
 import PyQt5
+import Scraper
+
+class Calendar(QMainWindow):
+
+    def __init__(self, parent = None):
+
+        super(Calendar, self).__init__(parent)
+
+        # setting title
+        self.setWindowTitle("Calendar")
+
+        # setting geometry
+        self.setGeometry(50, 50, 400, 280)
+
+        button = QPushButton('Select', self)
+        button.setToolTip('Confirm the selected date then close the calendar')
+        button.move(300, 250)
+        button.clicked.connect(self.on_click)
+
+        # calling method
+        self.UiComponents()
+
+        # showing all the widgets
+        self.show()
+
+    # method for components
+    def UiComponents(self):
+        # creating a QCalendarWidget object
+        global calender
+        calender = QCalendarWidget(self)
+
+        # setting geometry to the calender
+        calender.setGeometry(0, 0, 400, 250)
 
 
+    @pyqtSlot()
+    def on_click(self):
+        print(calender.selectedDate().toString("yyyy-MM-dd"))
+        self.close()
+        return calender.selectedDate().toString("yyyy-MM-dd")
 
 class App(QMainWindow):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent = None):
+        super(App, self).__init__(parent)
         self.title = 'Scraper'
-        self.left = 1000
-        self.top = 500
+        self.left = 500
+        self.top = 250
         self.width = 1000
-        self.height = 800
+        self.height = 500
         self.initUI()
 
     def initUI(self):
@@ -67,18 +105,33 @@ class App(QMainWindow):
         self.button = QPushButton('Run Scrape', self)
         self.button.move(20, 80)
 
-        # connect button to function on_click
         self.button.clicked.connect(self.on_click)
-        self.show()
+
+        self.Cbutton = QPushButton('Start Date', self)
+        self.Cbutton.move(20, 280)
+
+        self.sdate = QLabel("example", self)
+        self.sdate.move(150, 280)
+        self.sdate.resize(300, 30)
+
+        # connect button to function on_click
+        self.Cbutton.clicked.connect(self.on_calendar_click)
 
     @pyqtSlot()
     def on_click(self):
-        textboxValue = self.Eventname.text()
-        QMessageBox.question(self, "Placeholder" + textboxValue, QMessageBox.Ok, QMessageBox.Ok)
-        self.textbox.setText("")
+        Scraper.Scrape()
+
+    @pyqtSlot()
+    def on_calendar_click(self):
+        self.dialog = Calendar(self)
+        self.dialog.show()
+
+        self.sdate.setText("test")
+
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = App()
+    main = App()
+    main.show()
     sys.exit(app.exec_())

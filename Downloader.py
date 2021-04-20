@@ -27,6 +27,8 @@ def downloadMedia(tweetID):
     #If the tweet has media files
     else:
         media = []
+        
+        #If the media type is a video
         if mediaType(tweet) == "video":
             filename = wget.download(tweet.extended_entities['media'][0]['video_info']['variants'][0]['url'])
             blobs = turnToBLOB(filename)
@@ -34,7 +36,7 @@ def downloadMedia(tweetID):
             os.remove(filename)
             return media
 
-        #If the media type is a gif
+        #If the media type is a GIF
         elif mediaType(tweet) == "animated_gif":
             wget.download(tweet.extended_entities['media'][0]['media_url'])
 
@@ -74,4 +76,3 @@ def turnToBLOB(filename):
     with open(filename, 'rb') as file:
         blob = file.read()
     return blob
-

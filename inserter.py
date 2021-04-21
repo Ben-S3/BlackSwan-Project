@@ -21,8 +21,8 @@ def event_exists(event):
 	mydb=temp[0]
 	mycursor=temp[1]
 	print("checking if event exists")
-	test_statement="SELECT id FROM event WHERE name LIKE '%%%s%%'"
-	test_val=(event.name,)
+	test_statement="SELECT id FROM event WHERE name LIKE %s"
+	test_val=('%'+event.name+'%',)
 	mycursor.execute(test_statement, test_val)
 	return mycursor.fetchall()
 

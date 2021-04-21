@@ -285,8 +285,8 @@ def find_tag_by_event(event):
 	return tags
 
 def testing(): #minimally viable product test, run scraper first!
-	name_events=find_events_by_name("Suez")
-	keyword_events=find_event_by_keywords(["Suez"])
+	name_events=find_events_by_name("Minnesota")
+	keyword_events=find_event_by_keywords(["Minnesota"])
 	posts=find_post_by_event(name_events[0])
 	user=find_user_by_post(posts[0])
 	medias=find_media_by_post(posts[0])

@@ -1,4 +1,4 @@
-#Author: Brian Contreras & BS & Bradley Franklin
+#Author: Brian Contreras & Benjamin Stark & Bradley Franklin
 #Date: 3/30/2021
 #Update: 4/20/2021
 #Description: A file to download the media data from a tweet
@@ -22,7 +22,7 @@ def downloadMedia(tweetID):
     #Checks if the tweet has media files in it
     if tweetHasMedia(tweet) == False:
         print("Tweet does not have media")
-        return 0
+        return []
 
     #If the tweet has media files
     else:

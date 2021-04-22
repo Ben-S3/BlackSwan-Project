@@ -23,15 +23,15 @@ api = tweepy.API(auth)
 
 geolocator = Nominatim(user_agent = "BSTwitterScraper")
 
-keyword = "Suez Canal Evergreen"
-start_year = 2021
-start_month = 4
-start_day = 6
-end_year = 2021
-end_month = 4
-end_day = 13
+keyword = "Minnesota Live"
+    start_year = 2021
+    start_month = 4
+    start_day = 18
+    end_year = 2021
+    end_month = 4
+    end_day = 20
 
-tags = ["Suez", "Canal", "Evergreen", "Ever", "Given"]
+    tags = ["Minnesota", "protest", "riot"]
 
 start_date = datetime.datetime(int(start_year), int(start_month), int(start_day), 0, 0, 0)
 end_date = datetime.datetime(int(end_year), int(end_month), int(end_day), 0, 0, 0)
@@ -42,10 +42,10 @@ end_time=end_date.strftime("%H:%M:%S")
 start_date=start_date.strftime("%Y-%m-%d")
 end_date=end_date.strftime("%Y-%m-%d")
 
-idevent = Twitter_parser.parseSearchData("SuezCanalBlocked", start_date, start_time, end_date, end_time, 30.57, 32.29, "Suez Canal", 100, tags)[1]
+idevent = Twitter_parser.parseSearchData("MinnesotaRiot", start_date, start_time, end_date, end_time, 45.0, -92.0, "Minnesota", 100, tags)[1]
 
 keyword += " -filter:retweets"
-geocode = "30.57,32.29,100mi"
+ geocode = "45.0,-92.0,100mi"
 for status in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyword, geocode = geocode, tweet_mode = "extended").items(100):
     isComment = False
     if status.in_reply_to_status_id_str is not None:
@@ -56,7 +56,7 @@ for status in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyw
     if status.geo is not None:
         long = status.coordinates.coordinates[0]
         lat = status.coordinates.coordinates[1]
-        location = geolocator.reverse(lat, long)
+        location = geolocator.reverse({}, {}".format(lat, long))
         loc = location.address
     elif status.place is not None:
         loc = status.place.full_name

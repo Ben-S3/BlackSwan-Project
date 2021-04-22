@@ -155,7 +155,7 @@ def stage_two(idevent, medias, urls, user, post,location): #inserts media array,
 				mycursor.execute(err_statement, err_val)
 				#set url id to existing url id
 				urls[temp].id_ = int(mycursor.fetchone()[0])
-				print("url", cur.name,"already exists, using existing id",urls[temp].id_)
+				print("url", cur.url,"already exists, using existing id",urls[temp].id_)
 			print("associating url",urls[temp].id_," and post",post.id_)
 			#associate post and url
 			url_post_statement="INSERT INTO url_post (idPost,idurl) VALUES ( %s,%s)"

@@ -1,6 +1,6 @@
 # Author: Bradley Franklin & Hope Church
 # Date Created: 2/9/2021
-# Date updated: 4/6/2021
+# Date updated: 4/22/2021
 # Description: Scraper of Twitter for Hard-Coded Demo of Useability
 
 import sys
@@ -56,7 +56,7 @@ for status in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyw
     if status.geo is not None:
         long = status.coordinates.coordinates[0]
         lat = status.coordinates.coordinates[1]
-        location = geolocator.reverse({}, {}".format(lat, long))
+        location = geolocator.reverse("{}, {}".format(lat, long))
         loc = location.address
     elif status.place is not None:
         loc = status.place.full_name

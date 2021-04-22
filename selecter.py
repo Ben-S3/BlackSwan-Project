@@ -289,8 +289,16 @@ def testing(): #minimally viable product test, run scraper first!
 	keyword_events=find_event_by_keywords(["Minnesota"])
 	posts=find_post_by_event(name_events[0])
 	user=find_user_by_post(posts[0])
-	medias=find_media_by_post(posts[0])
-	urls=find_url_by_post(posts[0])
+	medias=[]
+	for i in posts:
+		temp=find_media_by_post(i)
+		if len(temp) > 0 :
+			medias.append(temp[0])
+	urls=[]
+	for i in posts:
+		temp=find_url_by_post(i)
+		if len(temp) > 0 :
+			urls.append(temp[0])
 	print("outputing events found by name")
 	for i in name_events:
 		print(i.__dict__)

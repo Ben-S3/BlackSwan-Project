@@ -1,6 +1,6 @@
-# Author: Benjamin Stark & Bradley Franling
+# Author: Benjamin Stark & Bradley Franklin
 # Date Created: 4/12/2021
-# Date updated: 4/26/2021
+# Date updated: 4/18/2021
 # Description: UI for scraper
 
 import sys
@@ -71,16 +71,28 @@ class App(QMainWindow):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
-        # Create textbox
-        self.text = QLabel("Event Name:", self)
-        self.text.move(20, 10)
+        # Event name
+        self.eventLabel = QLabel("Event Name:", self)
+        self.eventLabel.move(20, 10)
         self.Eventname = QLineEdit("Event Name", self)
         self.Eventname.move(20, 40)
-        self.Eventname.resize(280, 30)
+        self.Eventname.resize(200, 30)
 
-        self.LL = QLabel("Latitude, Longitude, radius:", self)
-        self.LL.move(20, 80)
-        self.LL.resize(200, 30)
+        # Event Lookup
+        self.eventLookup = QComboBox(self)
+        self.eventLookup.addItem("--New Event--")
+        self.eventLookup.move(270, 40)
+        self.eventLookup.resize(200, 30)
+        self.checkEvent = QPushButton('Check', self)
+        self.checkEvent.move(220, 40)
+        self.checkEvent.resize(50, 30)
+
+        self.checkEvent.clicked.connect(self.check_events)
+
+        # Latitude Longitude and Radius
+        self.LatLonLabel = QLabel("Latitude, Longitude, radius:", self)
+        self.LatLonLabel.move(20, 80)
+        self.LatLonLabel.resize(200, 30)
         self.LatValidate = QDoubleValidator(-90.0, 90.0, 8, self)
         self.getLatitude = QLineEdit("Latitude", self)
         self.getLatitude.setValidator(self.LatValidate)
@@ -99,98 +111,113 @@ class App(QMainWindow):
         self.getRadius.move(200, 110)
         self.getRadius.resize(60, 30)
 
-        self.key = QLabel("Keywords: (comma seperated)", self)
-        self.key.move(20, 160)
-        self.key.resize(300, 30)
+        # Keywords
+        self.keyLabel = QLabel("Keywords: (comma seperated)", self)
+        self.keyLabel.move(20, 160)
+        self.keyLabel.resize(300, 30)
         self.Keywords = QLineEdit("Keywords", self)
         self.Keywords.move(20, 190)
         self.Keywords.resize(300, 30)
 
-        # Create a button in the window
-        self.button = QPushButton('Run Scrape', self)
-        self.button.move(20, 450)
+        # Start Date
+        self.calenderButtonStart = QPushButton('Start Date', self)
+        self.calenderButtonStart.move(20, 240)
 
-        self.button.clicked.connect(self.on_click)
+        self.setStartDate = QPushButton("set", self)
+        self.setStartDate.move(140, 240)
+        self.setStartDate.resize(30, 30)
 
-        self.Cbutton = QPushButton('Start Date', self)
-        self.Cbutton.move(20, 240)
+        self.calenderButtonStart.clicked.connect(self.on_calendar_click)
+        self.setStartDate.clicked.connect(self.set_date_start)
 
-        self.sdate = QPushButton("set", self)
-        self.sdate.move(140, 240)
-        self.sdate.resize(30, 30)
+        # End Date
+        self.calenderButtonEnd = QPushButton('End Date', self)
+        self.calenderButtonEnd.move(200, 240)
 
-        # connect button to function on_click
-        self.Cbutton.clicked.connect(self.on_calendar_click)
-        self.sdate.clicked.connect(self.set_date_start)
+        self.setEndDate = QPushButton("set", self)
+        self.setEndDate.move(320, 240)
+        self.setEndDate.resize(30, 30)
 
-        self.Cbuttone = QPushButton('End Date', self)
-        self.Cbuttone.move(200, 240)
-
-        self.sdatee = QPushButton("set", self)
-        self.sdatee.move(320, 240)
-        self.sdatee.resize(30, 30)
-
-        # connect button to function on_click
-        self.Cbuttone.clicked.connect(self.on_calendar_click)
-        self.sdatee.clicked.connect(self.set_date_end)
-
-        self.stl = QLabel("Start Time:", self)
-        self.stl.move(20, 270)
-        self.stl.resize(300, 30)
+        self.calenderButtonEnd.clicked.connect(self.on_calendar_click)
+        self.setEndDate.clicked.connect(self.set_date_end)
 
         # Start time
-        self.sTime = QComboBox(self)
-        self.sTime.addItem("1:00")
-        self.sTime.addItem("2:00")
-        self.sTime.addItem("3:00")
-        self.sTime.addItem("4:00")
-        self.sTime.addItem("5:00")
-        self.sTime.addItem("6:00")
-        self.sTime.addItem("7:00")
-        self.sTime.addItem("8:00")
-        self.sTime.addItem("9:00")
-        self.sTime.addItem("10:00")
-        self.sTime.addItem("11:00")
-        self.sTime.addItem("12:00")
-        self.sTime.move(20, 300)
-        self.sTime.resize(60, 30)
+        self.startTimeLabel = QLabel("Start Time:", self)
+        self.startTimeLabel.move(20, 270)
+        self.startTimeLabel.resize(300, 30)
 
-        self.sTimea = QComboBox(self)
-        self.sTimea.addItem("a.m.")
-        self.sTimea.addItem("p.m.")
-        self.sTimea.move(90, 300)
-        self.sTimea.resize(50, 30)
-
-        self.etl = QLabel("End Time:", self)
-        self.etl.move(20, 340)
-        self.etl.resize(300, 30)
+        self.startTime = QComboBox(self)
+        self.startTime.addItem("0:00")
+        self.startTime.addItem("1:00")
+        self.startTime.addItem("2:00")
+        self.startTime.addItem("3:00")
+        self.startTime.addItem("4:00")
+        self.startTime.addItem("5:00")
+        self.startTime.addItem("6:00")
+        self.startTime.addItem("7:00")
+        self.startTime.addItem("8:00")
+        self.startTime.addItem("9:00")
+        self.startTime.addItem("10:00")
+        self.startTime.addItem("11:00")
+        self.startTime.addItem("12:00")
+        self.startTime.addItem("13:00")
+        self.startTime.addItem("14:00")
+        self.startTime.addItem("15:00")
+        self.startTime.addItem("16:00")
+        self.startTime.addItem("17:00")
+        self.startTime.addItem("18:00")
+        self.startTime.addItem("19:00")
+        self.startTime.addItem("20:00")
+        self.startTime.addItem("21:00")
+        self.startTime.addItem("22:00")
+        self.startTime.addItem("23:00")
+        self.startTime.move(20, 300)
+        self.startTime.resize(60, 30)
 
         # End time
-        self.eTime = QComboBox(self)
-        self.eTime.addItem("1:00")
-        self.eTime.addItem("2:00")
-        self.eTime.addItem("3:00")
-        self.eTime.addItem("4:00")
-        self.eTime.addItem("5:00")
-        self.eTime.addItem("6:00")
-        self.eTime.addItem("7:00")
-        self.eTime.addItem("8:00")
-        self.eTime.addItem("9:00")
-        self.eTime.addItem("10:00")
-        self.eTime.addItem("11:00")
-        self.eTime.addItem("12:00")
-        self.eTime.move(20, 370)
-        self.eTime.resize(60, 30)
+        self.endTimeLabel = QLabel("End Time:", self)
+        self.endTimeLabel.move(20, 340)
+        self.endTimeLabel.resize(300, 30)
 
-        self.eTimea = QComboBox(self)
-        self.eTimea.addItem("a.m.")
-        self.eTimea.addItem("p.m.")
-        self.eTimea.move(90, 370)
-        self.eTimea.resize(50, 30)
+        self.endTime = QComboBox(self)
+        self.endTime.addItem("0:00")
+        self.endTime.addItem("1:00")
+        self.endTime.addItem("2:00")
+        self.endTime.addItem("3:00")
+        self.endTime.addItem("4:00")
+        self.endTime.addItem("5:00")
+        self.endTime.addItem("6:00")
+        self.endTime.addItem("7:00")
+        self.endTime.addItem("8:00")
+        self.endTime.addItem("9:00")
+        self.endTime.addItem("10:00")
+        self.endTime.addItem("11:00")
+        self.endTime.addItem("12:00")
+        self.endTime.addItem("13:00")
+        self.endTime.addItem("14:00")
+        self.endTime.addItem("15:00")
+        self.endTime.addItem("16:00")
+        self.endTime.addItem("17:00")
+        self.endTime.addItem("18:00")
+        self.endTime.addItem("19:00")
+        self.endTime.addItem("20:00")
+        self.endTime.addItem("21:00")
+        self.endTime.addItem("22:00")
+        self.endTime.addItem("23:00")
+        self.endTime.move(20, 370)
+        self.endTime.resize(60, 30)
+
+        # Create a button in the window
+        self.run = QPushButton('Run Scrape', self)
+        self.run.move(20, 450)
+
+        self.run.clicked.connect(self.on_click)
 
     @pyqtSlot()
     def on_click(self):
-        Scraper.Scrape()
+        Scraper.Scrape(self.Eventname.text(), self.Keywords.text(), self.getLatitude.text(), self.getLongitude.text(),
+                        self.getRadius.text(), self.calenderButtonStart.text(), self.startTime.currentText(),
+                        self.calenderButtonEnd.text(), self.endTime.currentText())
 
     @pyqtSlot()
     def on_calendar_click(self):
@@ -204,6 +231,14 @@ class App(QMainWindow):
     @pyqtSlot()
     def set_date_end(self):
         self.Cbuttone.setText(date)
+
+    @pyqtSlot()
+    def check_events(self):
+        events = scratch.fun()
+        self.eventLookup.clear()
+        self.eventLookup.addItem("--New Event--")
+        for x in events:
+            self.eventLookup.addItem(x.name)
 
 
 if __name__ == '__main__':

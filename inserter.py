@@ -20,11 +20,15 @@ def event_exists(event):
 	temp=db_connect()
 	mydb=temp[0]
 	mycursor=temp[1]
+	events=[]
 	print("checking if event exists")
 	test_statement="SELECT id FROM event WHERE name LIKE %s"
 	test_val=('%'+event.name+'%',)
 	mycursor.execute(test_statement, test_val)
-	return mycursor.fetchall()
+	tuples=mycursor.fetchall()
+	for i in tuples:
+		events.append(dbo.tuple_to_event(i))
+	return events
 
 def stage_one(location,event,tags): #inserts location, event, and array of tags, and returns a tuple [idlocation,idevent] order is location > event > tags
 	temp=db_connect()

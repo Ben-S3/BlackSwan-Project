@@ -14,7 +14,7 @@ from geopy.geocoders import Nominatim
 
 import Twitter_parser
 
-def Scrape():
+def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_time, end_date, end_time):
     auth = OAuthHandler('P3MouxIBM8paKK5WU9nq8rkDQ', '8WFkiLm136rtGfiHc8LQNpiUaQvXHrXDybUFJ55SeijbAvBzjV')
     auth.set_access_token('3930122292-nE61z1YrkLLtfWCiDDLQJI6AylW62EJHBpZ8jWt',
                       'ehRrZd1gvNCgHgrm3jr7wNP0hbn6tJxE8VusJxLH9Iybz')
@@ -23,31 +23,32 @@ def Scrape():
 
     geolocator = Nominatim(user_agent = "BSTwitterScraper")
 
-    keyword = "Minnesota Live"
-    start_year = 2021
-    start_month = 4
-    start_day = 18
-    end_year = 2021
-    end_month = 4
-    end_day = 20
+    keyword = keywords
+    #start_year = 2021
+    #start_month = 4
+    #start_day = 18
+    #end_year = 2021
+    #end_month = 4
+    #end_day = 20
 
-    tags = ["Minnesota", "protest", "riot"]
+    tags = ["Minnesota", "protest", "riot"] #keywords.split
 
-    start_date = datetime.datetime(int(start_year), int(start_month), int(start_day), 0, 0, 0)
-    end_date = datetime.datetime(int(end_year), int(end_month), int(end_day), 0, 0, 0)
+    #start_date = datetime.datetime(int(start_year), int(start_month), int(start_day), 0, 0, 0)
+    #end_date = datetime.datetime(int(end_year), int(end_month), int(end_day), 0, 0, 0)
 
-    start_time=start_date.strftime("%H:%M:%S")
-    end_time=end_date.strftime("%H:%M:%S")
+    #start_time=start_date.strftime("%H:%M:%S")
+    #end_time=end_date.strftime("%H:%M:%S")
 
-    start_date=start_date.strftime("%Y-%m-%d")
-    end_date=end_date.strftime("%Y-%m-%d")
+    #start_date=start_date.strftime("%Y-%m-%d")
+    #end_date=end_date.strftime("%Y-%m-%d")
 
-    idevent = Twitter_parser.parseSearchData("MinnesotaRiot", start_date, start_time, end_date, end_time, 45.0, -92.0, "Minnesota", 100, tags)[1]
+    idevent = Twitter_parser.parseSearchData(eventName, start_date, start_time, end_date, end_time, latitude, longitude, "Minnesota", radius, tags)[1]
 
     previous_tweets = []
 
     keyword += " -filter:retweets"
-    geocode = "45.0,-92.0,100mi"
+    geocode = "" + latitude + "," + longitude + "," + radius + "mi"
+    print(geocode)
     for status in tweepy.Cursor(api.search, since=start_date, until=end_date, q=keyword, geocode = geocode, tweet_mode = "extended").items(100):
         while True:
             isRepeat = False
@@ -97,5 +98,5 @@ def Scrape():
                 break
 
 if __name__ == '__main__':
-    Scrape()
+    Scrape("MinnesotaRiot", "Minnesota Live", "45.0", "-92.0", "100", "2021-04-18", "00:00:00", "2021-04-20", "00:00:00")
 

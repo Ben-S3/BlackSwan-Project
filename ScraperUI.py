@@ -1,21 +1,24 @@
 # Author: Benjamin Stark & Bradley Franling
 # Date Created: 4/12/2021
-# Date updated: 4/18/2021
+# Date updated: 4/26/2021
 # Description: UI for scraper
 
 import sys
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QLabel, QCalendarWidget
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QLabel, \
+    QCalendarWidget, QComboBox
 from PyQt5.QtGui import QIcon, QDoubleValidator, QIntValidator
 from PyQt5.QtCore import pyqtSlot
 import PyQt5
 import Scraper
 
+global date
+date = ""
+
 class Calendar(QMainWindow):
 
-    def __init__(self, parent = None):
-
+    def __init__(self, parent=None):
         super(Calendar, self).__init__(parent)
 
         # setting title
@@ -38,28 +41,30 @@ class Calendar(QMainWindow):
     # method for components
     def UiComponents(self):
         # creating a QCalendarWidget object
-        global calender
-        calender = QCalendarWidget(self)
+        global calendar
+        calendar = QCalendarWidget(self)
 
-        # setting geometry to the calender
-        calender.setGeometry(0, 0, 400, 250)
-
+        # setting geometry to the calendar
+        calendar.setGeometry(0, 0, 400, 250)
 
     @pyqtSlot()
     def on_click(self):
-        print(calender.selectedDate().toString("yyyy-MM-dd"))
+        print(calendar.selectedDate().toString("yyyy-MM-dd"))
+        global date
+        date = calendar.selectedDate().toString("yyyy-MM-dd")
         self.close()
-        return calender.selectedDate().toString("yyyy-MM-dd")
+        return calendar.selectedDate().toString("yyyy-MM-dd")
+
 
 class App(QMainWindow):
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(App, self).__init__(parent)
         self.title = 'Scraper'
         self.left = 500
         self.top = 250
         self.width = 1000
-        self.height = 500
+        self.height = 550
         self.initUI()
 
     def initUI(self):
@@ -74,49 +79,65 @@ class App(QMainWindow):
         self.Eventname.resize(280, 30)
 
         self.LL = QLabel("Latitude, Longitude, radius:", self)
-        self.LL.move(20, 120)
+        self.LL.move(20, 80)
         self.LL.resize(200, 30)
         self.LatValidate = QDoubleValidator(-90.0, 90.0, 8, self)
         self.getLatitude = QLineEdit("Latitude", self)
         self.getLatitude.setValidator(self.LatValidate)
-        self.getLatitude.move(20, 150)
+        self.getLatitude.move(20, 110)
         self.getLatitude.resize(60, 30)
 
         self.LonValidate = QDoubleValidator(-180.0, 180.0, 8, self)
         self.getLongitude = QLineEdit("Longitude", self)
         self.getLongitude.setValidator(self.LonValidate)
-        self.getLongitude.move(110, 150)
+        self.getLongitude.move(110, 110)
         self.getLongitude.resize(60, 30)
 
         self.RadValidate = QIntValidator(0, 1000, self)
         self.getRadius = QLineEdit("Radius", self)
         self.getRadius.setValidator(self.RadValidate)
-        self.getRadius.move(200, 150)
+        self.getRadius.move(200, 110)
         self.getRadius.resize(60, 30)
 
         self.key = QLabel("Keywords: (comma seperated)", self)
-        self.key.move(20, 200)
+        self.key.move(20, 160)
         self.key.resize(300, 30)
         self.Keywords = QLineEdit("Keywords", self)
-        self.Keywords.move(20, 230)
+        self.Keywords.move(20, 190)
         self.Keywords.resize(300, 30)
 
         # Create a button in the window
         self.button = QPushButton('Run Scrape', self)
-        self.button.move(20, 80)
+        self.button.move(20, 450)
 
         self.button.clicked.connect(self.on_click)
 
         self.Cbutton = QPushButton('Start Date', self)
-        self.Cbutton.move(20, 280)
+        self.Cbutton.move(20, 240)
 
-        self.sdate = QLabel("example", self)
-        self.sdate.move(150, 280)
-        self.sdate.resize(300, 30)
+        self.sdate = QPushButton("set", self)
+        self.sdate.move(140, 240)
+        self.sdate.resize(30, 30)
 
         # connect button to function on_click
         self.Cbutton.clicked.connect(self.on_calendar_click)
-        
+        self.sdate.clicked.connect(self.set_date_start)
+
+        self.Cbuttone = QPushButton('End Date', self)
+        self.Cbuttone.move(200, 240)
+
+        self.sdatee = QPushButton("set", self)
+        self.sdatee.move(320, 240)
+        self.sdatee.resize(30, 30)
+
+        # connect button to function on_click
+        self.Cbuttone.clicked.connect(self.on_calendar_click)
+        self.sdatee.clicked.connect(self.set_date_end)
+
+        self.stl = QLabel("Start Time:", self)
+        self.stl.move(20, 270)
+        self.stl.resize(300, 30)
+
         # Start time
         self.sTime = QComboBox(self)
         self.sTime.addItem("1:00")
@@ -131,14 +152,18 @@ class App(QMainWindow):
         self.sTime.addItem("10:00")
         self.sTime.addItem("11:00")
         self.sTime.addItem("12:00")
-        self.sTime.move(20, 320)
+        self.sTime.move(20, 300)
         self.sTime.resize(60, 30)
 
         self.sTimea = QComboBox(self)
         self.sTimea.addItem("a.m.")
         self.sTimea.addItem("p.m.")
-        self.sTimea.move(90, 320)
+        self.sTimea.move(90, 300)
         self.sTimea.resize(50, 30)
+
+        self.etl = QLabel("End Time:", self)
+        self.etl.move(20, 340)
+        self.etl.resize(300, 30)
 
         # End time
         self.eTime = QComboBox(self)
@@ -154,13 +179,13 @@ class App(QMainWindow):
         self.eTime.addItem("10:00")
         self.eTime.addItem("11:00")
         self.eTime.addItem("12:00")
-        self.eTime.move(20, 360)
+        self.eTime.move(20, 370)
         self.eTime.resize(60, 30)
 
         self.eTimea = QComboBox(self)
         self.eTimea.addItem("a.m.")
         self.eTimea.addItem("p.m.")
-        self.eTimea.move(90, 360)
+        self.eTimea.move(90, 370)
         self.eTimea.resize(50, 30)
 
     @pyqtSlot()
@@ -172,8 +197,13 @@ class App(QMainWindow):
         self.dialog = Calendar(self)
         self.dialog.show()
 
-        self.sdate.setText("test")
+    @pyqtSlot()
+    def set_date_start(self):
+        self.Cbutton.setText(date)
 
+    @pyqtSlot()
+    def set_date_end(self):
+        self.Cbuttone.setText(date)
 
 
 if __name__ == '__main__':

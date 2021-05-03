@@ -8,7 +8,6 @@ import mysql.connector
 
 
 usserinput = input("Enter the Event name ?")
-list1 = ['0','1']
 print(usserinput)
 # import Scraper
 cnx = mysql.connector.connect(host="localhost", port=8889, user="root", password="root", database="Blackswan")

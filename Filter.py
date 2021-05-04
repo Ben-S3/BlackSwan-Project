@@ -15,6 +15,13 @@ def filterMedia(posts, keywords):
                 filteredPosts.append(posts[y])
                 del posts[y]
 
+#
+#    for x in posts:
+#        if keyword[0] in posts[x].title or keyword[0] in posts[x].description:
+#            filteredPosts.append(posts[y])
+#            del posts[y]
+#            del keyword[0]
+
     return filteredPosts
 
 

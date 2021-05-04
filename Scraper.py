@@ -16,6 +16,12 @@ from geopy.geocoders import Nominatim
 import Twitter_parser
 
 def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_time, end_date, end_time):
+    # Test whether fields were filled out, if not, exit
+    if (eventName == "Event Name" or keywords == "Keywords" or longitude == "Longitude" or latitude == "Latitude" or
+            radius == "Radius" or start_date == "Start Date" or end_date == "End Date"):
+        print("Please fill out all fields.")
+        exit()
+    
     auth = OAuthHandler('P3MouxIBM8paKK5WU9nq8rkDQ', '8WFkiLm136rtGfiHc8LQNpiUaQvXHrXDybUFJ55SeijbAvBzjV')
     auth.set_access_token('3930122292-nE61z1YrkLLtfWCiDDLQJI6AylW62EJHBpZ8jWt',
                       'ehRrZd1gvNCgHgrm3jr7wNP0hbn6tJxE8VusJxLH9Iybz')

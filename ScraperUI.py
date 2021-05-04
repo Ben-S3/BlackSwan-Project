@@ -80,7 +80,7 @@ class App(QMainWindow):
         self.Eventname.resize(200, 30)
 
         # Event Lookup
-        self.eventNums = {"--New Event--": 0}
+        self.eventNums = {"--New Event--": -1}
         self.eventLookup = QComboBox(self)
         self.eventLookup.addItem("--New Event--")
         self.eventLookup.move(270, 40)

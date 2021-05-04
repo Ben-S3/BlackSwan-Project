@@ -1,7 +1,7 @@
 #Author: Brian Contreras & Benjamin Stark & Bradley Franklin
 #Date: 3/30/2021
-#Update: 4/20/2021
-#Description: A file to download the media data from a tweet
+#Update: 5/4/2021
+#Description: A process to download the media data from a tweet to be sent to the database
 
 import wget
 import os
@@ -56,8 +56,12 @@ def downloadMedia(tweetID):
 
 #Function to obtain the tweet itself from the tweet data
 def getTweetData(tweetID):
-    tweet = api.get_status(tweetID, tweet_mode="extended")
-    return tweet
+    try:
+        tweet = api.get_status(tweetID, tweet_mode="extended")
+        return tweet
+    except:
+        print("An error occurred accessing this tweet's media.")
+        return None
 
 #Function to check if the tweet has media files in it
 def tweetHasMedia(tweet):

@@ -1,6 +1,6 @@
 #Author: Brian Contreras
 #Date: 4/30/2021
-#Update:
+#Update: 5/4/2021
 #Description: A file to filter tweets from a search to make it easier to read
 
 
@@ -11,7 +11,7 @@ def filterMedia(posts, keywords):
 
     for x in keyword:
         for y in posts:
-            if keyword[x] in posts[y]:
+            if keyword[x] in posts[y].title or keyword[x] in posts[y].description:
                 filteredPosts.append(posts[y])
                 del posts[y]
 

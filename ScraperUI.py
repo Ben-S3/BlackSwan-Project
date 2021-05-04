@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAc
 from PyQt5.QtGui import QIcon, QDoubleValidator, QIntValidator
 from PyQt5.QtCore import pyqtSlot
 import PyQt5
+import inserter
 import Scraper
 
 global date
@@ -79,6 +80,7 @@ class App(QMainWindow):
         self.Eventname.resize(200, 30)
 
         # Event Lookup
+        self.eventNums = {"--New Event--": 0}
         self.eventLookup = QComboBox(self)
         self.eventLookup.addItem("--New Event--")
         self.eventLookup.move(270, 40)
@@ -176,7 +178,7 @@ class App(QMainWindow):
 
         # End time
         self.endTimeLabel = QLabel("End Time:", self)
-        self.endTimeLabel.move(20, 340)
+        self.endTimeLabel.move(160, 270)
         self.endTimeLabel.resize(300, 30)
 
         self.endTime = QComboBox(self)
@@ -204,7 +206,7 @@ class App(QMainWindow):
         self.endTime.addItem("21:00")
         self.endTime.addItem("22:00")
         self.endTime.addItem("23:00")
-        self.endTime.move(20, 370)
+        self.endTime.move(160, 300)
         self.endTime.resize(60, 30)
 
         # Create a button in the window
@@ -217,7 +219,7 @@ class App(QMainWindow):
     def on_click(self):
         Scraper.Scrape(self.Eventname.text(), self.Keywords.text(), self.getLatitude.text(), self.getLongitude.text(),
                         self.getRadius.text(), self.calenderButtonStart.text(), self.startTime.currentText(),
-                        self.calenderButtonEnd.text(), self.endTime.currentText())
+                        self.calenderButtonEnd.text(), self.endTime.currentText(), self.eventNums[self.eventLookup.currentText()])
 
     @pyqtSlot()
     def on_calendar_click(self):
@@ -234,11 +236,12 @@ class App(QMainWindow):
 
     @pyqtSlot()
     def check_events(self):
-        events = scratch.fun()
+        events = inserter.event_exists(self.Eventname.text())
         self.eventLookup.clear()
         self.eventLookup.addItem("--New Event--")
         for x in events:
             self.eventLookup.addItem(x.name)
+            self.eventNums[x.name] = x.id_
 
 
 if __name__ == '__main__':

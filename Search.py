@@ -21,25 +21,25 @@ for i in cursor:
     print(i)
 cursor = cnx.cursor()
 
-# class Example(QMainWindow):
-#
-#     def __init__(self):
-#         super().__init__()
-#
-#         self.initUI()
-#
-#     def initUI(self):
-#
-#         self.setGeometry(300, 300, 250, 150)
-#         self.setWindowTitle('Search Events')
-#         self.show()
-#
-#
-# def main():
-#     app = QApplication(sys.argv)
-#     ex = Example()
-#     sys.exit(app.exec_())
-#
-#
-# if __name__ == '__main__':
-#     main()
+class Example(QMainWindow):
+
+    def __init__(self):
+         super().__init__()
+
+        self.initUI()
+
+    def initUI(self):
+
+        self.setGeometry(300, 300, 250, 150)
+        self.setWindowTitle('Search Events')
+        self.show()
+
+
+def main():
+    app = QApplication(sys.argv)
+    ex = Example()
+    sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+     main()

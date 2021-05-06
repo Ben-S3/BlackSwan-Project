@@ -16,13 +16,13 @@ from geopy.geocoders import Nominatim
 import Twitter_parser
 
 
-def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_time, end_date, end_time):
+def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_time, end_date, end_time, event_id):
     # Test whether fields were filled out, if not, exit
     if (eventName == "Event Name" or keywords == "Keywords" or longitude == "Longitude" or latitude == "Latitude" or
             radius == "Radius" or start_date == "Start Date" or end_date == "End Date"):
         print("Please fill out all fields.")
         exit()
-    
+
     auth = OAuthHandler('P3MouxIBM8paKK5WU9nq8rkDQ', '8WFkiLm136rtGfiHc8LQNpiUaQvXHrXDybUFJ55SeijbAvBzjV')
     auth.set_access_token('3930122292-nE61z1YrkLLtfWCiDDLQJI6AylW62EJHBpZ8jWt',
                       'ehRrZd1gvNCgHgrm3jr7wNP0hbn6tJxE8VusJxLH9Iybz')
@@ -43,7 +43,11 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
         keywords += "\""
 
     # Send Event data to database to create a new event
-    idevent = Twitter_parser.parseSearchData(eventName, start_date, start_time, end_date, end_time, latitude, longitude, eventLocation, radius, tags)[1]
+    if event_id == -1:
+        Twitter_parser.parseSearchData(eventName, start_date, start_time, end_date, end_time, latitude, longitude,
+                                       eventLocation, radius, tags)[1]
+    else:
+        idevent = event_id
 
     # Create an array to account for tweet duplicates
     previous_tweets = []
@@ -121,5 +125,5 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
                 break
 
 if __name__ == '__main__':
-    Scrape("MinnesotaRiot", "Minnesota Police", "45.0", "-92.0", "100", "2021-04-21", "00:00:00", "2021-04-29", "00:00:00")
+    Scrape("MinnesotaRiot", "Minnesota Police", "45.0", "-92.0", "100", "2021-04-21", "00:00:00", "2021-04-29", "00:00:00", -1)
 

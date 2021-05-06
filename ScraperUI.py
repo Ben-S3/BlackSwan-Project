@@ -1,6 +1,6 @@
 # Author: Benjamin Stark & Bradley Franklin
 # Date Created: 4/12/2021
-# Date updated: 4/18/2021
+# Date updated: 5/6/2021
 # Description: UI for scraper
 
 import sys
@@ -13,6 +13,7 @@ from PyQt5.QtCore import pyqtSlot
 import PyQt5
 import inserter
 import Scraper
+import PremiumScraper
 
 global date
 date = ""
@@ -210,16 +211,32 @@ class App(QMainWindow):
         self.endTime.resize(60, 30)
 
         # Create a button in the window
-        self.run = QPushButton('Run Scrape', self)
-        self.run.move(20, 450)
+        self.run = QPushButton('Run Standard Scrape', self)
+        self.run.resize(120, 25)
+        self.run.move(20, 350)
 
-        self.run.clicked.connect(self.on_click)
+        self.run.clicked.connect(self.on_click_standard)
+
+        # Create a button in the window
+        self.runP = QPushButton('Run Premium Scrape', self)
+        self.runP.resize(120, 25)
+        self.runP.move(160, 350)
+
+        self.runP.clicked.connect(self.on_click_premium)
 
     @pyqtSlot()
-    def on_click(self):
+    def on_click_standard(self):
         Scraper.Scrape(self.Eventname.text(), self.Keywords.text(), self.getLatitude.text(), self.getLongitude.text(),
+                       self.getRadius.text(), self.calenderButtonStart.text(), self.startTime.currentText(),
+                       self.calenderButtonEnd.text(), self.endTime.currentText(),
+                       self.eventNums[self.eventLookup.currentText()])
+
+    @pyqtSlot()
+    def on_click_premium(self):
+        PremiumScraper.Scrape(self.Eventname.text(), self.Keywords.text(), self.getLatitude.text(), self.getLongitude.text(),
                         self.getRadius.text(), self.calenderButtonStart.text(), self.startTime.currentText(),
-                        self.calenderButtonEnd.text(), self.endTime.currentText(), self.eventNums[self.eventLookup.currentText()])
+                        self.calenderButtonEnd.text(), self.endTime.currentText(),
+                        self.eventNums[self.eventLookup.currentText()])
 
     @pyqtSlot()
     def on_calendar_click(self):
@@ -236,7 +253,7 @@ class App(QMainWindow):
 
     @pyqtSlot()
     def check_events(self):
-        events = inserter.event_exists(self.Eventname.text())
+        events = event_exists(self.Eventname.text())
         self.eventLookup.clear()
         self.eventLookup.addItem("--New Event--")
         for x in events:

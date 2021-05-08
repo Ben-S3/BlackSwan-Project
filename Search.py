@@ -1,14 +1,15 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QTableView, QHeaderView, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QTableView, QHeaderView, QVBoxLayout, QPushButton
 from PyQt5.QtCore import Qt, QSortFilterProxyModel
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from main import *
 
 class AppDemo(QWidget):
-    def _init_(self):
-        super()._init_()
+    def __init__(self):
+        super().__init__()
         self.resize(1200, 1000)
         mainLayout = QVBoxLayout()
-#for testing 
+
         companies = ('Apple', 'Facebook', 'Google', 'Amazon', 'Walmart', 'Dropbox', 'Starbucks', 'eBay', 'Canon')
         model = QStandardItemModel(len(companies), 1)
         model.setHorizontalHeaderLabels(['Company'])
@@ -22,9 +23,11 @@ class AppDemo(QWidget):
         filter_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
         filter_proxy_model.setFilterKeyColumn(0)
 
-        search_field = QLineEdit()
-        search_field.setStyleSheet('font-size: 35px; height: 60px;')
-        search_field.textChanged.connect(filter_proxy_model.setFilterRegExp)
+        search_field = QPushButton()
+        search_field.setText("Search button")
+        search_field.clicked.connect(db_connect)
+        # search_field.setStyleSheet('font-size: 35px; height: 80px;')
+        # search_field.textChanged.connect(filter_proxy_model.setFilterRegExp)
         mainLayout.addWidget(search_field)
 
         table = QTableView()

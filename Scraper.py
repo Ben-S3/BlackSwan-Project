@@ -36,7 +36,7 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
     tags = keywords.split(" ")
     for x in tags:
         x.replace(",", "")
-    keywords = keywords.replace(", ", " \"", 1)
+    keywords = keywords.replace(", ", "\"", 1)
     keywords = keywords.replace(", ", "\" \"")
     if "\"" in keywords:
         keywords += "\""

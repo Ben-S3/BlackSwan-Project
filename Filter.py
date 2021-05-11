@@ -11,10 +11,18 @@ def filterMedia(posts, keywords):
 
     for x in keyword:
         for y in posts:
-            if keyword[x] in posts[y].title or keyword[x] in posts[y].description:
-                filteredPosts.append(posts[y])
-                del posts[y]
-
+            try:
+                if x in y.title:
+                    filteredPosts.append(y)
+                    del posts[y]
+            except TypeError:
+                print("")
+            try:
+                if x in y.description:
+                    filteredPosts.append(y)
+                    del posts[y]
+            except TypeError:
+                print("")
     return filteredPosts
 
 

@@ -30,7 +30,7 @@ def main():
 			sel_post=posts[int(num_post)-1]
 			isnum=True
 		else:
-			posts=filterMedia(posts, num_post)
+			posts=filt.filterMedia(posts, num_post)
 	medias=sel.find_media_by_post(sel_post)
 	urls=sel.find_url_by_post(sel_post)
 	for i in urls:

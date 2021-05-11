@@ -1,6 +1,6 @@
 # Author: Bradley Franklin
 # Date Created: 3/15/2021
-# Date updated: 5/4/2021
+# Date updated: 5/11/2021
 # Description:  Premium Scraper of Twitter to find tweets and break data to be sent to parser
 #               Includes tweepy to access Twitter API, geopy to access geolocation of tweets
 
@@ -37,14 +37,20 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
     tags = keywords.split(" ")
     for x in tags:
         x.replace(",", "")
-    keywords = keywords.replace(", ", " \"", 1)
+    keywords = keywords.replace(", ", "\"", 1)
     keywords = keywords.replace(", ", "\" \"")
     if "\"" in keywords:
         keywords += "\""
 
+    # Create Datetime values to use in search
+    start_date_time = start_date.replace("-", "")
+    start_date_time += start_time.replace(":", "")[:-2]
+    end_date_time = end_date.replace("-", "")
+    end_date_time += end_time.replace(":", "")[:-2]
+
     # Send Event data to database to create a new event
     if event_id == -1:
-        Twitter_parser.parseSearchData(eventName, start_date, start_time, end_date, end_time, latitude, longitude,
+        idevent= Twitter_parser.parseSearchData(eventName, start_date, start_time, end_date, end_time, latitude, longitude,
                                        eventLocation, radius, tags)[1]
     else:
         idevent = event_id
@@ -54,10 +60,10 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
 
     # Refine keywords and geolocation for usability in Twitter API
     #keywords += " -is:retweets"  # Premium only function
-    keywords += " point_radius:[" + latitude + " " + longitude + " " + radius + "mi]"
+    keywords += " point_radius:[" + longitude + " " + latitude + " " + radius + "mi]"
     keywords += " lang: en"
     #keyword += " has:media"  # optional refinement not implemented
-    for status in api.search_30_day(label = "PremiumBlackSwanScrape", query = keywords, fromDate = start_date, toDate = end_date, maxResults = 100):
+    for status in api.search_30_day(environment_name = 'developmentDemo', query = keywords, fromDate = start_date_time, toDate = end_date_time, maxResults = 100):
     # Search through 100 tweets under the search parameters given
         while True:  # Acting do while loop for reply chains
             isRepeat = False  # Ensures duplicates are not reply chained through
@@ -84,8 +90,12 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
                     # Tweet has a named location in its data
                     loc = status.place.full_name
                     location = geolocator.geocode(loc)
-                    long = location.longitude
-                    lat = location.latitude
+                    if location is not None:
+                        long = location.longitude
+                        lat = location.latitude
+                    else:
+                        long = longitude
+                        lat = latitude
                 elif status.user.location is not None:
                     # Tweet does not have geo, but the user's profile does
                     loc = status.user.location
@@ -99,7 +109,10 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
                     tweet_url.append(status.entities['urls'][x]['expanded_url'])
                 text = ""  # Create empty text string for storage on post text
                 if not status.truncated:  # Test whether the post is truncated to only send full data to parser
-                    text = status.text
+                    try:
+                        text = status.text
+                    except:
+                        text = status.full_text
                 else:
                     text = status.extended_tweet['full_text']
                 # Tweet data formatted into parser's expected input
@@ -108,6 +121,7 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
                          text, status.favorite_count, status.retweet_count, 0, isComment, None,
                          "https://twitter.com/twitter/status/" + status.id_str, False, status.lang,
                          0, None, None, None, None, None, None]
+                print(tweet)
                 Twitter_parser.parseTweet(tweet, idevent)
                 if not isComment:
                     # If tweet is not a reply, break loop to end sequence
@@ -125,5 +139,5 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
                 break
 
 if __name__ == '__main__':
-    Scrape("MinnesotaRiot", "Minnesota Police", "45.0", "-92.0", "100", "2021-04-21", "00:00:00", "2021-04-29", "00:00:00", -1)
+    Scrape("MinnesotaRiot", "Police, Protest", "45.0", "-93.3", "2.5", "2021-04-16", "00:00:00", "2021-04-18", "00:00:00", -1)
 

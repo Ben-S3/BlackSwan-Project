@@ -9,7 +9,7 @@ class AppDemo(QWidget):
         super().__init__()
         self.resize(1200, 1000)
         mainLayout = QVBoxLayout()
-
+#for testing 
         companies = ('Apple', 'Facebook', 'Google', 'Amazon', 'Walmart', 'Dropbox', 'Starbucks', 'eBay', 'Canon')
         model = QStandardItemModel(len(companies), 1)
         model.setHorizontalHeaderLabels(['Company'])

@@ -139,5 +139,5 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
                 break
 
 if __name__ == '__main__':
-    Scrape("MinnesotaRiot", "Police, Protest", "45.0", "-93.3", "2.5", "2021-04-16", "00:00:00", "2021-04-18", "00:00:00", -1)
+    Scrape("MinnesotaRiot", "Police, Protest", "45.0", "-93.3", "5", "2021-04-16", "00:00:00", "2021-04-18", "00:00:00", -1)
 

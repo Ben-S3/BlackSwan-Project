@@ -12,16 +12,16 @@ def filterMedia(posts, keywords):
     for x in keyword:
         for y in posts:
             try:
-                if x in y.title:
+                if x.lower() in y.title.lower():
                     filteredPosts.append(y)
                     del posts[y]
-            except TypeError:
+            except (TypeError, AttributeError) as e:
                 print("")
             try:
-                if x in y.description:
+                if x.lower() in y.description.lower():
                     filteredPosts.append(y)
                     del posts[y]
-            except TypeError:
+            except (TypeError,AttributeError) as e:
                 print("")
     return filteredPosts
 

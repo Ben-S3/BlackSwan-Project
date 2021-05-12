@@ -6,7 +6,7 @@
 import sys
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QLabel, QCalendarWidget, QComboBox
-from PyQt5.QtGui import QIcon, QDoubleValidator, QIntValidator
+from PyQt5.QtGui import QIcon, QDoubleValidator, QIntValidator,  QListWidget, QListWidgetItem, QVBoxLayout
 from PyQt5.QtCore import pyqtSlot
 import PyQt5
 import inserter

@@ -57,21 +57,21 @@ class App(QMainWindow):
 
         self.run.clicked.connect(self.on_click)
 
-    @pyqtSlot()
+     @pyqtSlot()
     def on_click(self):
         event = ""
         for x in self.events:
-            if x.name is self.eventLookup.curretText():
+            if x.name is self.eventLookup.currentText():
                 event = x
                 break;
         self.posts = selecter.find_post_by_event(event)
-        
+
 
     @pyqtSlot()
     def check_events(self):
-        self.events = inserter.event_exists_name(self.Eventname.text())
+        self.events = inserter.event_exists_name(self.Keywords.text())
         self.eventLookup.clear()
-        self.eventLookup.addItem("--New Event--")
+        self.eventLookup.addItem("--Choose Event--")
         for x in self.events:
             self.eventLookup.addItem(x.name)
             self.eventNums[x.name] = x.id_

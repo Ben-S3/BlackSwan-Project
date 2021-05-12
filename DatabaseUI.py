@@ -101,6 +101,8 @@ class PostDisplay(QMainWindow):
             QListWidgetItem("Link: " + x.url, listWidget)
             QListWidgetItem("________________________________________________________________________________________",
                 listWidget)
+        if posts is None:
+            QListWidgetItem("No posts match the query.", listWidget)
         listWidget.resize(450, 400)
 
         window_layout = QVBoxLayout(self)

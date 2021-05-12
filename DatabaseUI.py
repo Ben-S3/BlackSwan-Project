@@ -80,7 +80,7 @@ class App(QMainWindow):
 class PostDisplay(QMainWindow):
 
     def __init__(self, parent=None):
-        super(App, self).__init__(parent)
+        super(PostDisplay, self).__init__(parent)
         self.title = 'Post Display'
         self.left = 500
         self.top = 250

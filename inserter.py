@@ -22,11 +22,26 @@ def event_exists(event):
 	mycursor=temp[1]
 	events=[]
 	print("checking if event exists")
-	test_statement="SELECT id FROM event WHERE name LIKE %s"
+	test_statement="SELECT id,name,date_start,time_start,date_end,time_end,idlocation  FROM event WHERE name LIKE %s"
 	test_val=('%'+event.name+'%',)
 	mycursor.execute(test_statement, test_val)
 	tuples=mycursor.fetchall()
 	for i in tuples:
+		events.append(dbo.tuple_to_event(i))
+	return events
+
+def event_exists_name(name):
+	temp=db_connect()
+	mydb=temp[0]
+	mycursor=temp[1]
+	events=[]
+	print("checking if event exists")
+	test_statement="SELECT id,name,date_start,time_start,date_end,time_end,idlocation  FROM event WHERE name LIKE %s"
+	test_val=('%'+name+'%',)
+	mycursor.execute(test_statement, test_val)
+	tuples=mycursor.fetchall()
+	for i in tuples:
+		print(i)
 		events.append(dbo.tuple_to_event(i))
 	return events
 
@@ -205,7 +220,7 @@ def db_connect():
 	mydb = mysql.connector.connect(
 		host="localhost",
 		user="root", 
-		password="",
+		password="RushDropperBlessTarnishTwentyStomp",
 		database="blackswan_event_tracker"
 	)
 	mycursor = mydb.cursor()

@@ -253,7 +253,7 @@ class App(QMainWindow):
 
     @pyqtSlot()
     def check_events(self):
-        events = event_exists(self.Eventname.text())
+        events = inserter.event_exists_name(self.Eventname.text())
         self.eventLookup.clear()
         self.eventLookup.addItem("--New Event--")
         for x in events:

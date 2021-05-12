@@ -47,7 +47,6 @@ class App(QMainWindow, event):
         if posts is None:
             QListWidgetItem("No posts match the query.", listWidget)
         listWidget.resize(450, 400)
-        listWidget.resize(450, 400)
 
 
 if __name__ == '__main__':

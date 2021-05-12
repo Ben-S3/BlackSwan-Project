@@ -114,7 +114,8 @@ class PostDisplay(QMainWindow):
             medias = selecter.find_media_by_post(x)
             if len(medias) > 0:
                 hasmedia = True
-            QListWidgetItem("User: " + str(x.idUser) + "\t Title: " + str(x.title), self.listWidget)
+            user=selecter.find_user_by_post(x)[0]
+            QListWidgetItem("User: " + str(user.username) + "\t Title: " + str(x.title), self.listWidget)
             QListWidgetItem("Description: " + str(x.description), self.listWidget)
             QListWidgetItem("Link: " + str(x.url), self.listWidget)
             QListWidgetItem("Has media: " + str(hasmedia), self.listWidget)
@@ -135,7 +136,8 @@ class PostDisplay(QMainWindow):
             medias = selecter.find_media_by_post(x)
             if len(medias) > 0:
                 hasmedia = True
-            QListWidgetItem("User: " + str(x.idUser) + "\t Title: " + str(x.title), self.listWidget)
+            user=selecter.find_user_by_post(x)[0]
+            QListWidgetItem("User: " + str(user.username) + "\t Title: " + str(x.title), self.listWidget)
             QListWidgetItem("Description: " + str(x.description), self.listWidget)
             QListWidgetItem("Link: " + str(x.url), self.listWidget)
             QListWidgetItem("Has media: " + str(hasmedia), self.listWidget)

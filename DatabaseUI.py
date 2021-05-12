@@ -108,27 +108,41 @@ class PostDisplay(QMainWindow):
 
         self.run.clicked.connect(self.on_click)
 
-        listWidget = QListWidget(self)
+        self.listWidget = QListWidget(self)
         for x in posts:
-            hasmedia=False
-            medias=selecter.find_media_by_post(x)
-            if len(medias) >0:
-                hasmedia=True
-            QListWidgetItem("User: " + str(x.idUser) + "\t Title: " + str(x.title), listWidget)
-            QListWidgetItem("Description: " + str(x.description), listWidget)
-            QListWidgetItem("Link: " + str(x.url), listWidget)
-            QListWidgetItem("Has media: " + str(hasmedia), listWidget)
+            hasmedia = False
+            medias = selecter.find_media_by_post(x)
+            if len(medias) > 0:
+                hasmedia = True
+            QListWidgetItem("User: " + str(x.idUser) + "\t Title: " + str(x.title), self.listWidget)
+            QListWidgetItem("Description: " + str(x.description), self.listWidget)
+            QListWidgetItem("Link: " + str(x.url), self.listWidget)
+            QListWidgetItem("Has media: " + str(hasmedia), self.listWidget)
             QListWidgetItem("________________________________________________________________________________________",
-                listWidget)
+                            self.listWidget)
         if posts is None:
-            QListWidgetItem("No posts match the query.", listWidget)
-        listWidget.resize(450, 350)
-        listWidget.move(0, 50)
+            QListWidgetItem("No posts match the query.", self.listWidget)
+        self.listWidget.resize(450, 350)
+        self.listWidget.move(0, 50)
 
     @pyqtSlot()
     def on_click(self):
         global posts
-        posts = Filter.filterMedia(posts, self.Keywords.text())
+        posts = filter.FilterMedia(posts, self.Keywords.text())
+        self.listWidget.clear()
+        for x in posts:
+            hasmedia = False
+            medias = selecter.find_media_by_post(x)
+            if len(medias) > 0:
+                hasmedia = True
+            QListWidgetItem("User: " + str(x.idUser) + "\t Title: " + str(x.title), self.listWidget)
+            QListWidgetItem("Description: " + str(x.description), self.listWidget)
+            QListWidgetItem("Link: " + str(x.url), self.listWidget)
+            QListWidgetItem("Has media: " + str(hasmedia), self.listWidget)
+            QListWidgetItem("________________________________________________________________________________________",
+                            self.listWidget)
+        if posts is None:
+            QListWidgetItem("No posts match the query.", self.listWidget)
 
 
 if __name__ == '__main__':

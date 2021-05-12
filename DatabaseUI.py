@@ -5,8 +5,9 @@
 
 import sys
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QLabel, QCalendarWidget, QComboBox
-from PyQt5.QtGui import QIcon, QDoubleValidator, QIntValidator,  QListWidget, QListWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction, QLineEdit, QMessageBox, QLabel, \
+    QCalendarWidget, QComboBox, QListWidget, QListWidgetItem, QVBoxLayout
+from PyQt5.QtGui import QIcon, QDoubleValidator, QIntValidator
 from PyQt5.QtCore import pyqtSlot
 import PyQt5
 import inserter
@@ -60,12 +61,13 @@ class App(QMainWindow):
 
     @pyqtSlot()
     def on_click(self):
+        global posts
         event = database_objects.event(None, None, None, None, None, None, None)
         for x in self.events:
             if x.name == self.eventLookup.currentText():
                 event = x
                 break;
-        self.posts = selecter.find_post_by_event(event)
+        posts = selecter.find_post_by_event(event)
         self.dialog = PostDisplay(self)
         self.dialog.show()
 
@@ -78,7 +80,7 @@ class App(QMainWindow):
         for x in self.events:
             self.eventLookup.addItem(x.name)
             self.eventNums[x.name] = x.id_
-            
+
 class PostDisplay(QMainWindow):
 
     def __init__(self, parent=None):
@@ -91,25 +93,20 @@ class PostDisplay(QMainWindow):
         self.initUI()
 
     def initUI(self):
+        global posts
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
         listWidget = QListWidget(self)
         for x in posts:
-            QListWidgetItem("User: " + x.idUser + "\t Title: " + x.title, listWidget)
-            QListWidgetItem("Description: " + x.description, listWidget)
-            QListWidgetItem("Link: " + x.url, listWidget)
+            QListWidgetItem("User: " + str(x.idUser) + "\t Title: " + str(x.title), listWidget)
+            QListWidgetItem("Description: " + str(x.description), listWidget)
+            QListWidgetItem("Link: " + str(x.url), listWidget)
             QListWidgetItem("________________________________________________________________________________________",
                 listWidget)
         if posts is None:
             QListWidgetItem("No posts match the query.", listWidget)
         listWidget.resize(450, 400)
-
-        window_layout = QVBoxLayout(self)
-        window_layout.addWidget(listWidget)
-        self.setLayout(window_layout)
-
-
 
 
 if __name__ == '__main__':

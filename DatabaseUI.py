@@ -92,10 +92,20 @@ class PostDisplay(QMainWindow):
         self.height = 400
         self.initUI()
 
-    def initUI(self):
+        def initUI(self):
         global posts
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
+
+        self.Keywords = QLineEdit("Refining Keywords", self)
+        self.Keywords.move(0, 0)
+        self.Keywords.resize(350, 30)
+
+        self.run = QPushButton('Refine Posts', self)
+        self.run.resize(100, 30)
+        self.run.move(350, 0)
+
+        self.run.clicked.connect(self.on_click)
 
         listWidget = QListWidget(self)
         for x in posts:
@@ -106,7 +116,13 @@ class PostDisplay(QMainWindow):
                 listWidget)
         if posts is None:
             QListWidgetItem("No posts match the query.", listWidget)
-        listWidget.resize(450, 400)
+        listWidget.resize(450, 350)
+        listWidget.move(0, 50)
+
+    @pyqtSlot()
+    def on_click(self):
+        global posts
+        posts = filter.filterMedia(posts, self.Keywords.text())
 
 
 if __name__ == '__main__':

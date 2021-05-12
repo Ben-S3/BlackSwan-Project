@@ -44,6 +44,9 @@ class App(QMainWindow, event):
             QListWidgetItem("Description: " + x.description, listWidget)
             QListWidgetItem("Link: " + x.url, listWidget)
             QListWidgetItem("________________________________________________________________________________________", listWidget)
+        if posts is None:
+            QListWidgetItem("No posts match the query.", listWidget)
+        listWidget.resize(450, 400)
         listWidget.resize(450, 400)
 
 

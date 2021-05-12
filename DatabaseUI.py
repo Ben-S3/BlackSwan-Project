@@ -66,6 +66,8 @@ class App(QMainWindow):
                 event = x
                 break;
         self.posts = selecter.find_post_by_event(event)
+        self.dialog = PostDisplay(self)
+        self.dialog.show()
 
 
     @pyqtSlot()

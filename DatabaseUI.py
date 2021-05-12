@@ -128,7 +128,7 @@ class PostDisplay(QMainWindow):
     @pyqtSlot()
     def on_click(self):
         global posts
-        posts = filter.FilterMedia(posts, self.Keywords.text())
+        posts = Filter.filterMedia(posts, self.Keywords.text())
         self.listWidget.clear()
         for x in posts:
             hasmedia = False

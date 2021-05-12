@@ -11,6 +11,7 @@ from PyQt5.QtCore import pyqtSlot
 import PyQt5
 import inserter
 import selecter
+import database_objects
 
 global posts
 posts = []
@@ -57,11 +58,11 @@ class App(QMainWindow):
 
         self.run.clicked.connect(self.on_click)
 
-     @pyqtSlot()
+@pyqtSlot()
     def on_click(self):
-        event = ""
+        event = database_objects.event(None, None, None, None, None, None, None)
         for x in self.events:
-            if x.name is self.eventLookup.currentText():
+            if x.name == self.eventLookup.currentText():
                 event = x
                 break;
         self.posts = selecter.find_post_by_event(event)

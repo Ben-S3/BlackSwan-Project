@@ -46,10 +46,6 @@ class App(QMainWindow, event):
             QListWidgetItem("________________________________________________________________________________________", listWidget)
         listWidget.resize(450, 400)
 
-        window_layout = QVBoxLayout(self)
-        window_layout.addWidget(listWidget)
-        self.setLayout(window_layout)
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv, selecter.find_events_by_name("MinnesotaRiot")[0])

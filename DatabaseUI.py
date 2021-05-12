@@ -13,6 +13,7 @@ import PyQt5
 import inserter
 import selecter
 import database_objects
+import Filter
 
 global posts
 posts = []

@@ -52,7 +52,7 @@ class App(QMainWindow, event):
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv, selecter.find_events_by_name("MinnesotaRiot"))
+    app = QApplication(sys.argv, selecter.find_events_by_name("MinnesotaRiot")[0])
     main = App()
     main.show()
     sys.exit(app.exec_())

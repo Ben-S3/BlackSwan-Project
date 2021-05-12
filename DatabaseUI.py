@@ -93,7 +93,7 @@ class PostDisplay(QMainWindow):
         self.height = 400
         self.initUI()
 
-        def initUI(self):
+    def initUI(self):
         global posts
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
@@ -110,9 +110,14 @@ class PostDisplay(QMainWindow):
 
         listWidget = QListWidget(self)
         for x in posts:
+            hasmedia=False
+            medias=selecter.find_media_by_post(x)
+            if len(medias) >0:
+                hasmedia=True
             QListWidgetItem("User: " + str(x.idUser) + "\t Title: " + str(x.title), listWidget)
             QListWidgetItem("Description: " + str(x.description), listWidget)
             QListWidgetItem("Link: " + str(x.url), listWidget)
+            QListWidgetItem("Has media: " + str(hasmedia), listWidget)
             QListWidgetItem("________________________________________________________________________________________",
                 listWidget)
         if posts is None:
@@ -123,7 +128,7 @@ class PostDisplay(QMainWindow):
     @pyqtSlot()
     def on_click(self):
         global posts
-        posts = filter.filterMedia(posts, self.Keywords.text())
+        posts = Filter.filterMedia(posts, self.Keywords.text())
 
 
 if __name__ == '__main__':

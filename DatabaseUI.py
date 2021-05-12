@@ -58,7 +58,7 @@ class App(QMainWindow):
 
         self.run.clicked.connect(self.on_click)
 
-@pyqtSlot()
+    @pyqtSlot()
     def on_click(self):
         event = database_objects.event(None, None, None, None, None, None, None)
         for x in self.events:

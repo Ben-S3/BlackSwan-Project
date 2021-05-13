@@ -1,6 +1,6 @@
 # Author: Bradley Franklin
 # Date Created: 3/15/2021
-# Date updated: 5/11/2021
+# Date updated: 5/4/2021
 # Description:  Premium Scraper of Twitter to find tweets and break data to be sent to parser
 #               Includes tweepy to access Twitter API, geopy to access geolocation of tweets
 
@@ -44,9 +44,9 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
 
     # Create Datetime values to use in search
     start_date_time = start_date.replace("-", "")
-    start_date_time += start_time.replace(":", "")[:-2]
+    start_date_time += start_time.replace(":", "")
     end_date_time = end_date.replace("-", "")
-    end_date_time += end_time.replace(":", "")[:-2]
+    end_date_time += end_time.replace(":", "")
 
     # Send Event data to database to create a new event
     if event_id == -1:
@@ -63,7 +63,9 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
     keywords += " point_radius:[" + longitude + " " + latitude + " " + radius + "mi]"
     keywords += " lang: en"
     #keyword += " has:media"  # optional refinement not implemented
+    print("test")
     for status in api.search_30_day(environment_name = 'developmentDemo', query = keywords, fromDate = start_date_time, toDate = end_date_time, maxResults = 100):
+        print("test")
     # Search through 100 tweets under the search parameters given
         while True:  # Acting do while loop for reply chains
             isRepeat = False  # Ensures duplicates are not reply chained through
@@ -139,5 +141,5 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
                 break
 
 if __name__ == '__main__':
-    Scrape("MinnesotaRiot", "Police, Protest", "45.0", "-93.3", "5", "2021-04-16", "00:00:00", "2021-04-18", "00:00:00", -1)
+    Scrape("MinnesotaRiot", "Police, Protest", "45.0", "-93.3", "5", "2021-04-16", "00:00", "2021-04-18", "00:00", -1)
 

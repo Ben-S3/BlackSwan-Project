@@ -245,11 +245,11 @@ class App(QMainWindow):
 
     @pyqtSlot()
     def set_date_start(self):
-        self.Cbutton.setText(date)
+        self.calenderButtonStart.setText(date)
 
     @pyqtSlot()
     def set_date_end(self):
-        self.Cbuttone.setText(date)
+        self.calenderButtonEnd.setText(date)
 
     @pyqtSlot()
     def check_events(self):

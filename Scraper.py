@@ -36,7 +36,7 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
     tags = keywords.split(" ")
     for x in tags:
         x.replace(",", "")
-    keywords = keywords.replace(", ", "\"", 1)
+    keywords = keywords.replace(", ", " \"", 1)
     keywords = keywords.replace(", ", "\" \"")
     if "\"" in keywords:
         keywords += "\""
@@ -118,5 +118,5 @@ def Scrape(eventName, keywords, latitude, longitude, radius, start_date, start_t
                 break
 
 if __name__ == '__main__':
-    Scrape("MinnesotaRiot", "Minnesota Police", "45.0", "-92.0", "100", "2021-04-21", "00:00:00", "2021-04-29", "00:00:00", -1)
+    Scrape("MinnesotaRiot", "Minnesota Police", "45.0", "-92.0", "100", "2021-04-21", "00:00", "2021-04-29", "00:00", -1)
 

@@ -11,7 +11,7 @@ def db_connect():
 	mydb = mysql.connector.connect(
 		host="localhost",
 		user="root", 
-		password="",
+		password="Hope@UTD",
 		database="blackswan_event_tracker"
 	)
 	mycursor = mydb.cursor()
@@ -317,4 +317,3 @@ def testing(): #minimally viable product test, run scraper first!
 	print("outputting urls")
 	for i in urls:
 		print(i.__dict__)
-testing()

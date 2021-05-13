@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `blackswan_event_tracker`.`location` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `gps_long` DOUBLE NULL,
   `gps_lat` DOUBLE NULL,
-  `name` VARCHAR(90) NULL,
+  `name` VARCHAR(200) NULL,
   `radius` DOUBLE NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `blackswan_event_tracker`.`post` (
   `dislike_num` INT NULL,
   `is_comment` TINYINT NULL,
   `parentid` INT NULL,
-  `url` VARCHAR(45) NULL,
+  `url` VARCHAR(500) NULL,
   `issensitive` TINYINT NULL,
   `language` VARCHAR(45) NULL,
   `sharecount` INT NULL,
@@ -187,9 +187,9 @@ DROP TABLE IF EXISTS `blackswan_event_tracker`.`media` ;
 
 CREATE TABLE IF NOT EXISTS `blackswan_event_tracker`.`media` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `data` BLOB NOT NULL,
+  `data` LONGBLOB NOT NULL,
   `media_type` VARCHAR(45) NULL,
-  `runtime` TIME NULL,
+  `runtime` INT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 

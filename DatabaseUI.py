@@ -46,7 +46,7 @@ class App(QMainWindow):
         self.checkEvent.clicked.connect(self.check_events)
 
         # Keywords
-        self.keyLabel = QLabel("Keywords: (comma seperated)", self)
+        self.keyLabel = QLabel("Keywords:", self)
         self.keyLabel.move(20, 5)
         self.keyLabel.resize(300, 30)
         self.Keywords = QLineEdit("Keywords", self)
